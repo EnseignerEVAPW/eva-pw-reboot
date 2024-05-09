@@ -7,7 +7,7 @@ const Header = () => {
         <div className="flex items-center space-x-4">
           <div className="text-blue-500">
             <i className="fas fa-acorn">
-              {/* Icono o logo aquí */}
+              {/* Icono */}
             </i>
           </div>
           <nav className="md:flex space-x-4">
