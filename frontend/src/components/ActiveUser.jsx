@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 function ActiveUser() {
   const usersRem = [
@@ -16,49 +16,20 @@ function ActiveUser() {
     { name: 'WhynGdOC', rating: 512 },
   ];
 
-  const styles = {
-    eachUser: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: '10px 20px',
-      backgroundColor: '#56cfe1',
-      borderRadius: '15px',
-      margin: '5px'
-    },
-    noEachUser: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: '10px 20px',
-      border: '2px solid #56cfe1',
-      borderRadius: '15px',
-      margin: '5px'
-    },
-    textUser: {
-      color: 'black',
-      fontWeight: 'bold',
-    },
-    ratingUser: {
-      color: 'black',
-      fontWeight: 'semi-bold',
-    }
-  };
-
   return (
-    <div style={{ border: '3px solid #6930c3', padding: '15px', borderRadius: '15px' }}>
-      <div style={{ fontSize: '1.4rem' }}>USUARIOS ACTIVOS</div>
+    <div className=" p-8 rounded-xl">
+      <div className="text-xl mb-4 text-white">USUARIOS ACTIVOS</div>
       {usersRem.map(user => (
-        <div style={styles.eachUser} key={user.name}>
-          <div style={styles.textUser}>{user.name}</div>
-          <div style={styles.ratingUser}>{user.rating}</div>
+        <div className="flex justify-between items-center p-3 bg-gray-800 rounded-lg mb-2 text-white" key={user.name}>
+          <div>{user.name}</div>
+          <div>{user.rating}</div>
         </div>
       ))}
-      <div style={{ fontSize: '1.4rem' }}>USUARIOS INACTIVOS</div>
+      <div className="text-xl mt-4 mb-4 text-white">USUARIOS INACTIVOS</div>
       {usersInactivos.map(user => (
-        <div style={styles.noEachUser} key={user.name}>
-          <div style={{ ...styles.textUser, color: 'black' }}>{user.name}</div>
-          <div style={{ ...styles.ratingUser, color: 'black' }}>{user.rating}</div>
+        <div className="flex justify-between items-center p-3 border-2 border-blue-300 rounded-lg mb-2" key={user.name}>
+          <div className="text-white">{user.name}</div>
+          <div className="text-white">{user.rating}</div>
         </div>
       ))}
     </div>
