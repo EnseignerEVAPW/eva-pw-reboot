@@ -31,33 +31,31 @@ function Board({ codeRoom }) {
         hostUrl: HOST_URL,
     });
 
-    const handleFileUpload = (event) => {
+    const handleFileUpload =(event) =>{
         const file = event.target.files[0];
-        setSelectedFile(file);
+        if(file){
+            setSelectedFile(file);
+        }else{
+            console.log("File not found");
+        }
     };
 
-    const saveInDataBase = async () => {
-        if (!selectedFile) {
-            alert('No file selected');
-            return;
-        }
+    const saveInDataBase =  async() => {
+        try{
+            const random = parseInt(Math.random()*2000);
+            const formData = new FormData();
+            formData.append('file', selectedFile, `image.png`);
 
-        const formData = new FormData();
-        formData.append('file', selectedFile, selectedFile.name);
-
-        try {
-            const response = await axios.post('http://localhost:3000/images/upload', formData, {
-                headers: {
+            const response = await axios.post('http://localhost:3000/images/upload', formData,{
+                headers:{
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            alert('Saved successfully');
-            console.log('Saved successfully');
-        } catch (e) {
-            console.error('Failed to save', e);
-            alert('Failed to save');
+            console.log('Saved succesfully');
+        }catch(e){
+            console.error('fallo', e);
         }
-    };
+    }
 
     return (
         <div className="board-container flex flex-col h-full   text-white  shadow-lg">
