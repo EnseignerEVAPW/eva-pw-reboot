@@ -1,7 +1,7 @@
 import React from 'react';
 import ActiveUser from "../components/ActiveUser";
 import GeneradorCodigo from "../components/GeneradorCodigo";
-import '../../public/styles/Board.css'; // Asegúrate de que la ruta es correcta
+import '../../public/styles/Board.css';
 
 const ModoICPC = () => {
   return (

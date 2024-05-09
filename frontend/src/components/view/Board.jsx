@@ -11,14 +11,15 @@
 // COMERCIABILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Vea la
 // GNU General Public License para más detalles.
 
+import React, { useState } from 'react';
 import { Tldraw } from 'tldraw';
 import 'tldraw/tldraw.css';
 import { usePartyStore } from '../../services/usePartyStore';
 import NameEditor from '../common/NameEditor';
 import '../../../public/styles/Board.css';
-import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '../common/UIComponents';
 
 const HOST_URL = 'localhost:1999';
 
@@ -30,48 +31,52 @@ function Board({ codeRoom }) {
         hostUrl: HOST_URL,
     });
 
-    const styles = {
-        button: {
-            margin: 10,
-        }
-    };
-    
-    const handleFileUpload = (event) => {
+    const handleFileUpload =(event) =>{
         const file = event.target.files[0];
-        if (file) {
+        if(file){
             setSelectedFile(file);
-        } else {
+        }else{
             console.log("File not found");
         }
     };
 
-    const saveInDataBase = async () => {
-        try {
+    const saveInDataBase =  async() => {
+        try{
+            const random = parseInt(Math.random()*2000);
             const formData = new FormData();
             formData.append('file', selectedFile, `image.png`);
 
-            const response = await axios.post('http://localhost:3000/images/upload', formData, {
-                headers: {
+            const response = await axios.post('http://localhost:3000/images/upload', formData,{
+                headers:{
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log('Saved successfully');
-        } catch (e) {
-            console.error('Failed', e);
+            console.log('Saved succesfully');
+        }catch(e){
+            console.error('fallo', e);
         }
-    };
+    }
 
     return (
-        <div className="board-container" style={{ marginBottom: 100 }}>
-            <Tldraw 
-                store={store}
-                components={{ SharePanel: NameEditor }}
-            />
-            <div style={styles.button}>
-                <input type='file' onChange={handleFileUpload} />
+        <div className="board-container flex flex-col h-full   text-white  shadow-lg">
+            <div className= "flex flex-col h-full bg-gray-800 p-4 rounded-lg">
+                <Tldraw
+                    store={store}
+                    components={{ SharePanel: NameEditor }}
+                    className="flex-grow"
+                />
             </div>
-            <button className='button' onClick={saveInDataBase} style={{ backgroundColor: 'violet' }}>GUARDAR</button>
-            <button className='button' onClick={() => navigate('/imagenes')} style={{ backgroundColor: 'violet' }}>VER GUARDADOS</button>
+            <div className="flex justify-between items-center mt-4 gap-4">
+                <div className="flex justify-between">
+                    <input type='file' className="file-input w-ful rounded-lg cursor-pointer" onChange={handleFileUpload} />
+                </div>
+                <Button onClick={saveInDataBase} fullWidth={true} color="#1E40AF">
+                    GUARDAR
+                </Button>
+                <Button onClick={() => navigate('/imagenes')} fullWidth={true} color="#1F2937">
+                    VER GUARDADOS
+                </Button>
+            </div>
         </div>
     );
 }
