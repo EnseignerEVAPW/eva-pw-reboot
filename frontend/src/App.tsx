@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/compete" element={<Compete />} />
-        <Route path="/train" element={<Train />} />
+        <Route path="/entrenar" element={<Train />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/ModoICPC" element={<ModoICPC />} />
