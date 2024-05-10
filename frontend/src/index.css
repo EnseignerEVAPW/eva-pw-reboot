@@ -20,6 +20,13 @@
 .body-text {
   color: #E0E0E0;
 }
+.hidden {
+  display: none;
+}
+.visible {
+  display: flex;
+  flex-grow: 1;
+}
 /* 
 a {
   font-weight: 500;
