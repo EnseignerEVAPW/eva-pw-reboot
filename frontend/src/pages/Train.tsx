@@ -20,6 +20,11 @@ function TrainingPage() {
         }
     }, []);
 
+    const handleFinish = () => {
+        localStorage.removeItem('hasReloaded');
+        navigate('/feedback');
+    }
+
     return (
         <div className="container-fluid h-screen p-4 flex-grow">
             <div className="flex flex-col h-full flex-grow">
@@ -27,7 +32,7 @@ function TrainingPage() {
                     <div className="flex flex-col w-2/5">
                         <VideoConferenceComp />
                         <div className="flex justify-around mt-4 space-x-4 flex-grow">
-                            <Button color="#1F2937" fullWidth={true} onClick={() => navigate('/feedback')}>Terminar</Button>
+                            <Button color="#1F2937" fullWidth={true} onClick={handleFinish}>Terminar</Button>
                         </div>
                     </div>
                     <div className="w-3/5 h-full flex flex-grow flex-col overflow-hidden">
@@ -43,7 +48,7 @@ function TrainingPage() {
                                 height="100%"
                                 src="https://onecompiler.com/embed?theme=dark"
                                 width="100%"
-                                className="rounded-lg border border-pink-8 shadow-md"></iframe>
+                                className="rounded-lg shadow-md"></iframe>
                         </div>
                     </div>
                 </div>

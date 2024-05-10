@@ -5,7 +5,6 @@ const Compete = () => {
   return (
     <div className="body-text">
       <h1>Compete</h1>
-      <p>Join our competition events and challenges.</p>
     </div>
   );
 }

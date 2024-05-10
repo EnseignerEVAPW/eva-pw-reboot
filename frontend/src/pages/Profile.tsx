@@ -31,8 +31,8 @@ const borderColor = 'border-gray-800';
 const Profile = () => {
   return (
     <>
-    <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 p-10 pb-0 ${textColor}`}>
-      <div className={`user-info rounded-lg p-6 mb-4 mr-2 border ${borderColor} shadow-md ${backgroundColor}`}>
+    <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 p-10 pb-0 ${textColor}`}>
+      <div className={`user-info rounded-lg p-6 mb-4 border ${borderColor} shadow-md ${backgroundColor}`}>
         <div className={`flex items-center space-x-4 mb-4`}>
           <div
             className="w-24 h-24 rounded-full flex items-center justify-center text-4xl font-semibold border-2 ${borderColor}"
@@ -56,7 +56,7 @@ const Profile = () => {
         </div>
       </div>
       <div
-        className={`rounded-lg p-6 mb-4 ml-2 border ${borderColor} shadow-md flex flex-col ${backgroundColor}`}
+        className={`rounded-lg p-6 mb-4 border ${borderColor} shadow-md flex flex-col ${backgroundColor}`}
       >
         <h3 className={`font-semibold text-lg mb-4 ${highlightColor}`}>Ranking</h3>
         <ol className="list-decimal pl-4 flex-grow">

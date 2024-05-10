@@ -57,6 +57,11 @@ function Board({ codeRoom }) {
         }
     }
 
+    const handleViewSaved = () => {
+        localStorage.removeItem('hasReloaded');
+        navigate('/imagenes');
+    }
+
     return (
         <div className="board-container flex flex-col h-full   text-white  shadow-lg">
             <div className= "flex flex-col h-full bg-gray-800 p-4 rounded-lg">
@@ -73,7 +78,7 @@ function Board({ codeRoom }) {
                 <Button onClick={saveInDataBase} fullWidth={true} color="#1E40AF">
                     GUARDAR
                 </Button>
-                <Button onClick={() => navigate('/imagenes')} fullWidth={true} color="#1F2937">
+                <Button onClick={handleViewSaved} fullWidth={true} color="#1F2937">
                     VER GUARDADOS
                 </Button>
             </div>
