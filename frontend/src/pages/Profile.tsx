@@ -23,10 +23,11 @@ const rankings = [
   { user: 'VectorVic', rating: 2200 },
 ];
 
-const backgroundColor = 'bg-[#1F2937]';
+const backgroundColor = 'bg-gray-800';
 const textColor = 'text-[#E0E0E0]';
 const highlightColor = 'text-[#87C5FD]';
-const borderColor = 'border-[#E0E0E0]';
+const borderColor = 'border-gray-800';
+
 const Profile = () => {
   return (
     <>
@@ -39,19 +40,19 @@ const Profile = () => {
             {userInfo.username.charAt(0).toUpperCase()}
           </div>
           <div>
-            <h2 className="text-2xl font-semibold" ><UserProfile/></h2>
+            <h2 className={`text-2xl font-semibold ${highlightColor}`} ><UserProfile/></h2>
             <p className="text-sm">{userInfo.country}</p>
             <p className="text-sm">{userInfo.email}</p>
           </div>
         </div>
         <div className="border-t border-gray-200 pt-4">
-          <p className="mb-2"><strong>Status:</strong> {userInfo.status}</p>
-          <p className="mb-2"><strong>Description:</strong> {userInfo.description}</p>
+          <p className="mb-2"><strong className={`${highlightColor}`}>Status:</strong> {userInfo.status}</p>
+          <p className="mb-2"><strong className={`${highlightColor}`}>Description:</strong> {userInfo.description}</p>
           <p className="mb-2">
-            <strong>Total Problems Solved:</strong>
+            <strong className={`${highlightColor}`}>Total Problems Solved:</strong>
             {userInfo.totalProblemsSolved}
           </p>
-          <p><strong>Highest Rating:</strong> {userInfo.highestRating}</p>
+          <p><strong className={`${highlightColor}`}>Highest Rating:</strong> {userInfo.highestRating}</p>
         </div>
       </div>
       <div
