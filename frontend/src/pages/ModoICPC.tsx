@@ -6,7 +6,7 @@ import '../../public/styles/Board.css';
 const ModoICPC = () => {
   return (
       <div className="container-fluid">
-        <div className="flex flex-row flex-items-center gap-5">
+        <div className="flex flex-row flex-items-center">
           <div className="w-1/2">
             <ActiveUser />
           </div>
