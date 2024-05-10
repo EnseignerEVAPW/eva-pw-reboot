@@ -93,19 +93,9 @@
   border-color: aliceblue;
 }
 
-#codeEditor {
-  margin-top: 20px;
-  display: none;
-}
-
 #codeEditor:target {
   margin-top: 20px;
   display: block;
-}
-
-#pizarra {
-  margin-top: 20px;
-  display: none;
 }
 
 #pizarra:target {
