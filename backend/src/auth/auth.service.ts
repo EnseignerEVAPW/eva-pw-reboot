@@ -1,7 +1,8 @@
 import {
   BadRequestException,
   Injectable,
-  UnauthorizedException
+  UnauthorizedException,
+  InternalServerErrorException
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import * as bcryptjs from "bcryptjs";
@@ -21,13 +22,13 @@ import { CodeforcesService } from "src/codeforces/codeforces.service";
     async register({ password, username, passwordConfirmation }: RegisterDto) {
       
       const user = await this.usersService.findOneByUsername(username);
+      
       if (user) {
         throw new BadRequestException("username already exists");
       }
       if(password !== passwordConfirmation){
         throw new BadRequestException("passwords do not match");
       }
-
 
       const checkCE = await this.codeforcesService.checkAuthenticationName(username);
       if (!checkCE) {
