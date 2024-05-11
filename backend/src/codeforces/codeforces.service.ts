@@ -36,12 +36,34 @@ export class CodeforcesService {
     return false;
   }
 
-  async checkAuthenticationName(username: string) {
-    // count = 1 in user.status
-    // handel = username
-    const response = await axios.get(`https://codeforces.com/api/user.info?handles=${username}`);
-    console.log(response.data.result[0].firstName);
-    return (response.data.result[0].firstName == "P2P-Auth");
+  async checkAuthenticationName(username: string): Promise<boolean> {
+    try {
+      const response = await axios.get(`https://codeforces.com/api/user.info?handles=${username}`);
+      
+      if (response.data.status === "OK" && response.data.result.length > 0) {
+          const userInfo = response.data.result[0];
+          console.log(userInfo.firstName);
+          
+          // Verificar si el nombre de usuario corresponde al esperado
+          return userInfo.firstName === "P2P-Auth";
+      } else {
+          console.error("Error al obtener información del usuario de Codeforces");
+          return false;
+      }
+    } catch (error) {
+        console.error("Error al conectarse a la API de Codeforces:", error);
+        return false;
+    }
+  }
+
+  async checkUserExists(username: string): Promise<boolean> {
+    try {
+      const response = await axios.get(`https://codeforces.com/api/user.info?handles=${username}`);
+      return response.data.status === "OK" && response.data.result.length > 0;
+    } catch (error) {
+      console.error("Error al conectarse a la API de Codeforces:", error);
+      return false;
+    }
   }
 
 }

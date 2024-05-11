@@ -6,24 +6,28 @@ import { CodeforcesService } from './codeforces/codeforces.service';
 import { CodeforcesController } from './codeforces/codeforces.controller';
 import { ChatLogModule } from './chatLog/chatlog.module';
 import { ImagesModule } from './images/images.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { AppConfig, DatabaseConfig } from './config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'tourist',    //change  
-    password: 'tourist',   //change
-    database: 'p2plearning',
-    entities: ['dist/**/*.entity{.ts,.js}'],
-    synchronize: true,
-
-  }),
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      cache: true,
+      load: [AppConfig, DatabaseConfig],
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        ...configService.get('database'),
+      }),
+      inject: [ConfigService],
+    }),
     AuthModule,
     ChatLogModule,
-    ImagesModule
-    ],
-    controllers: [CodeforcesController],
-    providers: [CodeforcesService],
+    ImagesModule,
+  ],
+  controllers: [CodeforcesController],
+  providers: [CodeforcesService],
 })
-export class AppModule { }
+export class AppModule {}
