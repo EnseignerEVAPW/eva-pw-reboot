@@ -5,9 +5,9 @@ const Header = () => {
     <header className="bg-gray-900 text-white p-5 w-full">
       <div className="container mx-auto flex justify-between items-center w-full">
         <div className="flex items-center space-x-4">
-          <div className="text-blue-500">
+          <div className="text-lg">
             <i className="fas fa-acorn">
-              {/* Icono */}
+              <span className="text-blue-500 font-bold p-5">P2P LEARNING</span>
             </i>
           </div>
           <nav className="md:flex space-x-4">
