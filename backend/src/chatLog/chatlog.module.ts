@@ -2,8 +2,11 @@
 import { Module } from '@nestjs/common';
 import { ChatLogController } from './chatlog.controller';
 import { ChatLogService } from './chatlog.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ChatLog } from './entities/chatlog.entity';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([ChatLog])],
   controllers: [ChatLogController],
   providers: [ChatLogService],
 })

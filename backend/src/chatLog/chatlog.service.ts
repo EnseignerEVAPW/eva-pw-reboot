@@ -20,7 +20,7 @@ export class ChatLogService {
     async findAll(): Promise<ChatLog[]> {
         return await this.chatLogRepository.find();
     }
-    
+
     private items: ChatLog[] = [{
         id: '1',
         name: 'chatlog1',
@@ -36,7 +36,7 @@ export class ChatLogService {
             id: v4(),
             name,
             createdAt: new Date(),
-            content
+            content,
         }
         this.items.push(newItem)
         return newItem

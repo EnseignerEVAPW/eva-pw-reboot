@@ -14,8 +14,5 @@ export class ChatLog {
 
   @Column()
   content: string;
-
-  @Column({ nullable: true })
-  disabled: boolean;
 }
 
