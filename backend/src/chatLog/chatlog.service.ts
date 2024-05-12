@@ -1,11 +1,26 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from '@nestjs/common';
-import { ChatLog } from './chatlog.entity';
 import {v4} from 'uuid';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { ChatLog } from './entities/chatlog.entity';
 
 @Injectable()
 export class ChatLogService {
+    constructor(
+        @InjectRepository(ChatLog)
+        private chatLogRepository: Repository<ChatLog>,
+    ) {}
 
+    async create(messageData: ChatLog): Promise<ChatLog> {
+        const newMessage = this.chatLogRepository.create(messageData);
+        return await this.chatLogRepository.save(newMessage);
+    }
+
+    async findAll(): Promise<ChatLog[]> {
+        return await this.chatLogRepository.find();
+    }
+    
     private items: ChatLog[] = [{
         id: '1',
         name: 'chatlog1',

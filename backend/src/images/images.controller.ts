@@ -15,7 +15,7 @@ export class ImagesController {
     @Post('upload')
     @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
-            destination: './upload',
+            destination: './uploads',
             filename: renameImage
         }),
         fileFilter: fileFilter
