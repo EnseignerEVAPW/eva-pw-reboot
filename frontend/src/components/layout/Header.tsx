@@ -19,7 +19,7 @@ const Header = () => {
           </nav>
         </div>
         <div className="flex space-x-4">
-          <button className="text-gray-300 hover:text-blue-500">Login</button>
+          <Link to="/login" className="text-gray-300 hover:text-blue-500">Login</Link>
           <i className="fas fa-search text-gray-300 hover:text-blue-500"></i>
           <i className="fas fa-user text-gray-300 hover:text-blue-500"></i>
         </div>

@@ -8,7 +8,8 @@ import Train from './pages/Train'
 import Rules from './pages/Rules'
 import Profile from './pages/Profile'
 import ModoICPC from './pages/ModoICPC';
-
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
         <Route path="/rules" element={<Rules />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/ModoICPC" element={<ModoICPC />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
       <Footer />
     </Router>
