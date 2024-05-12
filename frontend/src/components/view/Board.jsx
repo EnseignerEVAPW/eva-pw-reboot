@@ -42,7 +42,6 @@ function Board({ codeRoom }) {
 
     const saveInDataBase =  async() => {
         try{
-            const random = parseInt(Math.random()*2000);
             const formData = new FormData();
             formData.append('file', selectedFile, `image.png`);
 
@@ -51,7 +50,7 @@ function Board({ codeRoom }) {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log('Saved succesfully');
+            console.log('Saved succesfully', response.data);
         }catch(e){
             console.error('fallo', e);
         }

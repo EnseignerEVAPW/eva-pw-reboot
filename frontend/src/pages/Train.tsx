@@ -30,7 +30,7 @@ function TrainingPage() {
             <div className="flex flex-col h-full flex-grow">
                 <div className="flex gap-4 flex-row flex-grow">
                     <div className="flex flex-col w-2/5">
-                        <VideoConferenceComp />
+                        <VideoConferenceComp codeRoom={codeInvite} />
                         <div className="flex justify-around mt-4 space-x-4 flex-grow">
                             <Button color="#1F2937" fullWidth={true} onClick={handleFinish}>Terminar</Button>
                         </div>
