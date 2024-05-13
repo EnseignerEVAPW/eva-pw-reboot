@@ -32,6 +32,7 @@ function GeneradorCodigo() {
   }
 
   const handleCreateRoom = () => {
+    localStorage.removeItem('hasReloaded');
     generateCode();
     setNavigateOnCode(true);
   };
@@ -43,9 +44,10 @@ function GeneradorCodigo() {
   };
 
   return (
-    <div className="p-8 bg-gray-900 rounded-xl shadow-lg">
+    <div className="p-8 rounded-xl shadow-lg">
       <div className="text-lg text-white mb-3">Sala de Entrenamiento</div>
       <div className="p-4 rounded-xl bg-gray-800">
+      // descripcion
         <div className="flex flex-col gap-4">
           <button
             className="w-full px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-md shadow"
