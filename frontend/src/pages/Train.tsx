@@ -8,9 +8,11 @@ function TrainingPage() {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const codeInvite = searchParams.get('codeInvite');
+    const isCreator = searchParams.get('isCreator') === 'true';
     const navigate = useNavigate();
 
-    const [view, setView] = useState('pizarra'); // Controla qué vista se muestra
+    const [view, setView] = useState('pizarra');
+    const [showModal, setShowModal] = useState(isCreator);
 
     useEffect(() => {
         const hasReloaded = localStorage.getItem('hasReloaded');
@@ -23,7 +25,15 @@ function TrainingPage() {
     const handleFinish = () => {
         localStorage.removeItem('hasReloaded');
         navigate('/feedback');
-    }
+    };
+
+    const handleCopyCode = () => {
+        navigator.clipboard.writeText(codeInvite);
+    };
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
 
     return (
         <div className="container-fluid h-screen p-4 flex-grow">
@@ -32,6 +42,11 @@ function TrainingPage() {
                     <div className="flex flex-col w-2/5">
                         <VideoConferenceComp codeRoom={codeInvite} />
                         <div className="flex justify-around mt-4 space-x-4 flex-grow">
+                            {isCreator && (
+                                <div className="text-white">
+                                    Código de la Sala: <span className="font-bold">{codeInvite}</span>
+                                </div>
+                            )}
                             <Button color="#1F2937" fullWidth={true} onClick={handleFinish}>Terminar</Button>
                         </div>
                     </div>
@@ -53,6 +68,30 @@ function TrainingPage() {
                     </div>
                 </div>
             </div>
+
+            {showModal && (
+                <div className="fixed bottom-0 left-0 mb-7 ml-7 bg-black rounded-lg bg-opacity-50 z-500">
+                    <div className="bg-gray-300 p-6 rounded-lg shadow-lg text-black w-72">
+                        <h2 className="text-xl mb-4">Compartir Código</h2>
+                        <p className="mb-4">Puedes compartir el siguiente código para que un participante pueda unirse:</p>
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="font-bold">{codeInvite}</span>
+                            <button
+                                className="ml-4 px-4 py-2 bg-blue-700 hover:bg-blue-500 text-white rounded-md"
+                                onClick={handleCopyCode}
+                            >
+                                Copiar Código
+                            </button>
+                        </div>
+                        <button
+                            className="w-full px-4 py-2 bg-gray-600 hover:bg-gray-500 text-white rounded-md"
+                            onClick={handleCloseModal}
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
