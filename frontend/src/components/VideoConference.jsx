@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './common/UIComponents';
 
-function VideoConferenceComp() {
+function VideoConferenceComp({ codeRoom }) {
   const [id, setId] = useState('');
   const [dataFromUser2, setDataFromUser2] = useState({
     name: '',
@@ -9,6 +9,16 @@ function VideoConferenceComp() {
   });
   const apiRef = useRef(null);
 
+  const convertRoom = (codeRoom) => {
+    let roomNumString = '';
+    for (let i = 0; i < codeRoom.length; i++) {
+      let first = codeRoom.charCodeAt(i);
+      let numbString = first % 10;
+      roomNumString += numbString.toString();
+    }
+    const roomNumber = parseInt(roomNumString);
+    return roomNumber;
+  }
   useEffect(() => {
     const scriptId = 'jitsi';
     let script = document.getElementById(scriptId);
@@ -21,10 +31,12 @@ function VideoConferenceComp() {
       document.body.appendChild(script);
     }
 
+    const roomNumber = convertRoom(codeRoom);
+
     script.onload = () => {
       if (window.JitsiMeetExternalAPI) {
         apiRef.current = new window.JitsiMeetExternalAPI('8x8.vc', {
-          roomName: 'vpaas-magic-cookie-15a65f78518d4474b1896c5505157fd8/780012',
+          roomName: `vpaas-magic-cookie-15a65f78518d4474b1896c5505157fd8/${roomNumber}`,
           parentNode: document.querySelector('#jaas-container'),
         });
         apiRef.current.on('incomingMessage', (event) => {
@@ -84,7 +96,7 @@ function VideoConferenceComp() {
         <Button color="primary" onClick={handleMessages}>Guardar mensajes recibidos</Button>
         <Button color="primary" onClick={handleUpdates}>Actualizar mensajes</Button>
       </div>
-      </div>
+    </div>
   );
 }
 

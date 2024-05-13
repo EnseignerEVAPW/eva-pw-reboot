@@ -1,4 +1,8 @@
-import { Column, Entity } from "typeorm";
+/* eslint-disable prettier/prettier */
+import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { UserRole } from "./user-role.enum";
+import { ChatLog } from "src/chatLog/entities/chatlog.entity";
+import { Image } from "src/images/entities/images.entity";
 
 @Entity()
 export class User {
@@ -13,4 +17,22 @@ export class User {
 
   @Column({ nullable: true })
   lastSeen: Date;
+
+  @Column({type: 'enum', enum: UserRole, default: UserRole.USER})
+  role: User;
+
+  @ManyToOne(() => User, coach => coach.students, {nullable:true})
+  coach: User;
+  
+  @Column({nullable: true})
+  coachId : string;
+
+  @OneToMany(() => User, student => student.coach)
+  students: User[];
+
+  @OneToMany(()=> ChatLog, chatlog => chatlog.user)
+  chatlogs: ChatLog[];
+
+  @OneToMany(()=> Image, image => image.user)
+  images: Image[];
 }

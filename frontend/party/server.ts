@@ -13,7 +13,6 @@
 
 import type * as Party from 'partykit/server';
 import {  HistoryEntry,  TLRecord,  TLStoreSnapshot, createTLSchema, throttle } from 'tldraw';
-import { snapshot } from 'yjs';
 
 export default class WebSocketServer implements Party.Server {
   records: Record<string, TLRecord> = {}
