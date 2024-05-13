@@ -5,9 +5,9 @@ const Header = () => {
     <header className="bg-gray-900 text-white p-5 w-full">
       <div className="container mx-auto flex justify-between items-center w-full">
         <div className="flex items-center space-x-4">
-          <div className="text-blue-500">
+          <div className="text-lg">
             <i className="fas fa-acorn">
-              {/* Icono */}
+              <span className="text-blue-500 font-bold p-5">P2P LEARNING</span>
             </i>
           </div>
           <nav className="md:flex space-x-4">
@@ -19,7 +19,7 @@ const Header = () => {
           </nav>
         </div>
         <div className="flex space-x-4">
-          <button className="text-gray-300 hover:text-blue-500">Login</button>
+          <Link to="/login" className="text-gray-300 hover:text-blue-500">Login</Link>
           <i className="fas fa-search text-gray-300 hover:text-blue-500"></i>
           <i className="fas fa-user text-gray-300 hover:text-blue-500"></i>
         </div>
