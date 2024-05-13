@@ -10,6 +10,7 @@ import Profile from './pages/Profile'
 import ModoICPC from './pages/ModoICPC';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Timeline from './pages/Timeline';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/ModoICPC" element={<ModoICPC />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/timeline" element={<Timeline />} />
       </Routes>
       <Footer />
     </Router>
