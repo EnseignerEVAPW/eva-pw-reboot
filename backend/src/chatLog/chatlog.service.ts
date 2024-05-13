@@ -4,17 +4,29 @@ import {v4} from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ChatLog } from './entities/chatlog.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ChatLogService {
     constructor(
         @InjectRepository(ChatLog)
         private chatLogRepository: Repository<ChatLog>,
+        @InjectRepository(User)
+        private userRepository: Repository<User>
     ) {}
 
-    async create(messageData: ChatLog): Promise<ChatLog> {
-        const newMessage = this.chatLogRepository.create(messageData);
-        return await this.chatLogRepository.save(newMessage);
+    async create(newChatLog: any, userId: any): Promise<ChatLog> {
+        const user = await this.userRepository.findOne(userId);
+        if(!user){
+            throw new Error('User not found');
+        }
+        const chatLog = new ChatLog();
+        chatLog.content = newChatLog.content;
+        chatLog.name = newChatLog.name;
+        chatLog.user = user;
+
+        const newChatlog = await this.chatLogRepository.save(chatLog);
+        return newChatlog;
     }
 
     async findAll(): Promise<ChatLog[]> {
@@ -26,22 +38,27 @@ export class ChatLogService {
         name: 'chatlog1',
         createdAt: new Date(),
         content: '/example',
+        userId: 1,
+        user: null
     }]
 
     getAllChatlog() {
         return this.items
     }
-    createChatlog(name: string, content: string) {
+    async createChatlog(name: string, content: string, userId: number) {
+        const user = await this.userRepository.findOne({ where: { id: userId } });
         const newItem = {
             id: v4(),
             name,
             createdAt: new Date(),
             content,
+            userId,
+            user
         }
         this.items.push(newItem)
         return newItem
      }
-    uploadChatlog(name: string, content2: string) { 
+    uploadChatlog(name: string, content2: string, userId: number, user: any) { 
         const existingItem = this.items.find(item => item.name === name);
         if(existingItem){
             console.log(existingItem)
@@ -55,6 +72,8 @@ export class ChatLogService {
                 name,
                 createdAt: new Date(),
                 content: content2,
+                userId,
+                user
             }
             this.items.push(newItem)
             return newItem

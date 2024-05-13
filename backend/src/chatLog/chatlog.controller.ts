@@ -1,8 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Param, Post, Res, Delete, Patch, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Delete, Patch } from '@nestjs/common';
 import { ChatLogService } from './chatlog.service';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { Response } from 'express';
 
 @Controller('chatlog')
 export class ChatLogController {
@@ -15,7 +13,7 @@ export class ChatLogController {
 
     @Post()
     createChatlog(@Body() newChatLog: any){  //body es json
-        return this.chatlogService.createChatlog(newChatLog.name, newChatLog.content)
+        return this.chatlogService.createChatlog(newChatLog.name, newChatLog.content, newChatLog.userId);
     }
 
     @Delete(':id')
@@ -26,12 +24,5 @@ export class ChatLogController {
     @Patch(':id')
     updateChatlog(@Param('id') id: string, @Body() updatedItem: any){ 
         return this.chatlogService.updateChatlog(id, updatedItem)
-    }
-
-    @Post('uploadChatlog')
-    @UseInterceptors(FileInterceptor('image'))
-    async uploadChatlog(@Body() newChatLog: any, @UploadedFile() image, @Res() res: Response): Promise<any>{
-        const newChatlog = await this.chatlogService.uploadChatlog(newChatLog, image)
-        return res.json(newChatlog)
     }
 }

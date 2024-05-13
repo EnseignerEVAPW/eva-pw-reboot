@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { User } from "src/users/entities/user.entity";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm"
 
 @Entity()
 export class ChatLog {
@@ -14,5 +15,12 @@ export class ChatLog {
 
   @Column()
   content: string;
+
+  @Column()
+  userId: number;
+
+  @ManyToOne(() => User, user => user.chatlogs)
+  user: User;
+
 }
 
