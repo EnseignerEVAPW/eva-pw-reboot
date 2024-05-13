@@ -45,11 +45,11 @@ function GeneradorCodigo() {
 
   return (
     <div className="p-8 rounded-xl shadow-lg">
-      <div className="text-lg text-white mb-3">Sala de Entrenamiento</div>
+      <div className="text-xl mb-4 text-gray-300">SALA DE ENTRENAMIENTO</div>
       <div className="p-4 rounded-xl bg-gray-800">
         <h2 className="text-2xl font-semibold text-gray-300 mb-4">Obtén un vínculo para compartir</h2>
         <p className="mb-6 text-gray-300">
-          Haz clic en <span className="font-bold">Nueva reunión</span> para obtener un vínculo que puedas enviar a las personas con quienes quieras reunirte.
+          Haz clic en <span className="font-bold">Crear Sala</span> para obtener un vínculo que puedas enviar a las personas con quienes quieras reunirte.
         </p>
         <div className="flex flex-col gap-4">
           <button
