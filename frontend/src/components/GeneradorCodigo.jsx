@@ -47,7 +47,10 @@ function GeneradorCodigo() {
     <div className="p-8 rounded-xl shadow-lg">
       <div className="text-lg text-white mb-3">Sala de Entrenamiento</div>
       <div className="p-4 rounded-xl bg-gray-800">
-      // descripcion
+        <h2 className="text-2xl font-semibold text-gray-300 mb-4">Obtén un vínculo para compartir</h2>
+        <p className="mb-6 text-gray-300">
+          Haz clic en <span className="font-bold">Nueva reunión</span> para obtener un vínculo que puedas enviar a las personas con quienes quieras reunirte.
+        </p>
         <div className="flex flex-col gap-4">
           <button
             className="w-full px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-md shadow"
