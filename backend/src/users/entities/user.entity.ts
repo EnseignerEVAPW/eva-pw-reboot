@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, BeforeInsert } from "typeorm";
 import { UserRole } from "./user-role.enum";
 import { ChatLog } from "src/chatLog/entities/chatlog.entity";
 import { Image } from "src/images/entities/images.entity";
@@ -15,7 +15,7 @@ export class User {
   @Column({ nullable: false })
   password: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, default: () => 'CURRENT_TIMESTAMP' }) 
   lastSeen: Date;
 
   @Column({type: 'enum', enum: UserRole, default: UserRole.USER})
@@ -35,4 +35,5 @@ export class User {
 
   @OneToMany(()=> Image, image => image.user)
   images: Image[];
+
 }
