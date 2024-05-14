@@ -20,7 +20,7 @@ const Header = ({openModal}) => {
             <Link to="/modoICPC" className="hover:text-blue-500">Entrenar</Link>
             <Link to="/rules" className="hover:text-blue-500">Reglas</Link>
             <Link to="/profile" className="hover:text-blue-500">Perfil</Link>
-            <Link to="/beCoach" className="hover:text-blue-500" onClick={handleOpenModal}>Ser Coach</Link>
+            <Link to="/profile" className="hover:text-blue-500" onClick={handleOpenModal}>Ser Coach</Link>
           </nav>
         </div>
         <div className="flex space-x-4">
