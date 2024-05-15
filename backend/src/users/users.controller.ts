@@ -30,4 +30,19 @@ export class UsersController {
     return this.usersService.findImagesByUserId(userId);
   }
 
+  @Get('online')
+  async findAllOnlineUsers(): Promise<User[]> {
+    return this.usersService.findAllOnlineUsers();
+  }
+
+  @Get('offline')
+  async findAllOfflineUsers(): Promise<User[]> {
+    return this.usersService.findAllOfflineUsers();
+  }
+
+  @Get('dummy')
+  async currentTime() {
+    return new Date();
+  }
+
 }
