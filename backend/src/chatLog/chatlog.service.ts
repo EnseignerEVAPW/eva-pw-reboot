@@ -41,22 +41,23 @@ export class ChatLogService {
         userId: 1,
         user: null
     }]
-
-    getAllChatlog() {
+    getAllChatlog(){
         return this.items
     }
+    async getAllChatlogs(): Promise<ChatLog[]> {
+        return this.chatLogRepository.find({ relations: ['user']});
+    }
+
     async createChatlog(name: string, content: string, userId: number) {
         const user = await this.userRepository.findOne({ where: { id: userId } });
-        const newItem = {
-            id: v4(),
-            name,
-            createdAt: new Date(),
-            content,
-            userId,
-            user
-        }
-        this.items.push(newItem)
-        return newItem
+        
+        const newItem = new ChatLog();
+        newItem.name = name;
+        newItem.content = content;
+        newItem.userId = userId;
+        newItem.user = user;
+
+        return this.chatLogRepository.save(newItem);
      }
     
     getChatlogById(id: string): ChatLog {

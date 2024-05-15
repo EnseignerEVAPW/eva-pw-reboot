@@ -12,7 +12,12 @@ export class ChatLogController {
     }
 
     @Post()
-    createChatlog(@Body() newChatLog: any){  //body es json
+    createChatlog2(@Body() newChatLog: any){  //body es json
+        return this.chatlogService.createChatlog(newChatLog.name, newChatLog.content, newChatLog.userId);
+    }
+
+    @Post()
+    createChatlog(@Body() newChatLog: {name: string; content: string; userId: number}){  //body es json
         return this.chatlogService.createChatlog(newChatLog.name, newChatLog.content, newChatLog.userId);
     }
 
@@ -25,4 +30,6 @@ export class ChatLogController {
     updateChatlog(@Param('id') id: string, @Body() updatedItem: any){ 
         return this.chatlogService.updateChatlog(id, updatedItem)
     }
+
+
 }

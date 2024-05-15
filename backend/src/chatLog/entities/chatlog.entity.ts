@@ -11,7 +11,7 @@ export class ChatLog {
   name: string;
 
   @Column({type: 'timestamp', default:()=>'CURRENT_TIMESTAMP'})
-    createdAt: Date;
+  createdAt: Date;
 
   @Column()
   content: string;
