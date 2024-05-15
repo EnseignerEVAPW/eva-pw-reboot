@@ -15,6 +15,23 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+
+  @Get('online')
+  async findAllOnlineUsers(): Promise<User[]> {
+    return this.usersService.findAllOnlineUsers();
+  }
+
+  @Get('offline')
+  async findAllOfflineUsers(): Promise<User[]> {
+    return this.usersService.findAllOfflineUsers();
+  }
+
+  @Get('dummy')
+  async currentTime() {
+    return new Date();
+  }
+
+
   @Get('coach/:coachId/students')
   async findStudentByCoachId(@Param('coachId') coachId: string): Promise<User[]> {
     return this.usersService.findStudentByCoachId(coachId);
@@ -40,19 +57,4 @@ export class UsersController {
     return this.usersService.update(id, updateUser);
   }
   
-  @Get('online')
-  async findAllOnlineUsers(): Promise<User[]> {
-    return this.usersService.findAllOnlineUsers();
-  }
-
-  @Get('offline')
-  async findAllOfflineUsers(): Promise<User[]> {
-    return this.usersService.findAllOfflineUsers();
-  }
-
-  @Get('dummy')
-  async currentTime() {
-    return new Date();
-  }
-
 }
