@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './common/UIComponents';
+import {jwtDecode} from 'jwt-decode';
+import axios from 'axios';
 
 function VideoConferenceComp({ codeRoom }) {
   const [id, setId] = useState('');
+  const [idNumber, setIdNumber] = useState('');
   const [dataFromUser2, setDataFromUser2] = useState({
     name: '',
     content: '',
@@ -23,6 +26,7 @@ function VideoConferenceComp({ codeRoom }) {
     const scriptId = 'jitsi';
     let script = document.getElementById(scriptId);
 
+    findIdByName();
     if (!script) {
       script = document.createElement('script');
       script.id = scriptId;
@@ -41,7 +45,7 @@ function VideoConferenceComp({ codeRoom }) {
         });
         apiRef.current.on('incomingMessage', (event) => {
           console.log(`Message received from ${event.from}: ${event.message}`);
-          setDataFromUser2({ name: event.from, content: event.message });
+          setDataFromUser2({ name: event.from, content: event.message, userId:parseInt(idNumber) });
         });
       } else {
         console.error('JitsiMeetExternalAPI not loaded');
@@ -55,6 +59,20 @@ function VideoConferenceComp({ codeRoom }) {
       }
     };
   }, []);
+
+  const findIdByName = async () => {
+    const tokenMine = sessionStorage.getItem('token');
+    const decode = jwtDecode(tokenMine);
+    console.log('decodeee', decode)
+    await axios.get(`http://localhost:3000/users/${decode.username}`)
+        .then((response)=> {
+          setIdNumber(response.data.id);
+          console.log("holaaa", response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  }
 
   const handleUpdates = () => {
     const optionPatch = {

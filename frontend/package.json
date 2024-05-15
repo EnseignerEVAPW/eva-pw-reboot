@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^1.6.8",
+    "jwt-decode": "^4.0.0",
     "partysocket": "^1.0.1",
     "react": "^18.2.0",
     "react-calendar-heatmap": "^1.9.0",
@@ -29,10 +30,10 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "partykit": "0.0.104",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.2.2",
-    "vite": "^5.2.0",
-    "partykit": "0.0.104"
+    "vite": "^5.2.0"
   }
 }
