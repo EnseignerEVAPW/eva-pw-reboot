@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:3000/auth/login', {
+        username: username,
+        password: password,
+      });
+      const token = response.data.token;
+      sessionStorage.setItem('token', token);
+      navigate('/profile');
+    } catch(error){
+      alert('Error al hacer login');
+      console.error('El error:', error);
+    }
     console.log('Form submitted:', { username, password });
   };
 

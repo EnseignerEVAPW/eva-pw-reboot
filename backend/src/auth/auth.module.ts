@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { UsersModule } from "src/users/users.module";
@@ -5,6 +6,7 @@ import { AuthController } from "./auth.controller";
 import { AuthService } from "./auth.service";
 import { jwtConstants } from "./constants/jwt.constant";
 import { CodeforcesService } from "src/codeforces/codeforces.service";
+import { JwtStrategy } from "./strategy/jwt.strategy";
 @Module({
   imports: [
     UsersModule,
@@ -15,6 +17,6 @@ import { CodeforcesService } from "src/codeforces/codeforces.service";
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, CodeforcesService],
+  providers: [AuthService, CodeforcesService, JwtStrategy],
 })
 export class AuthModule {}

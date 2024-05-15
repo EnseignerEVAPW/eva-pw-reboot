@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from "@nestjs/common";
 import { AuthGuard } from "./auth.guard";
 import { AuthService } from "./auth.service";
@@ -29,7 +30,11 @@ export class AuthController {
     @Request()
     req: any
   ) {
-    return req.user;
+    if(req.user){
+      return req.user;
+    }else {
+      return {message : 'No user.'};
+    }
   }
 
 }
