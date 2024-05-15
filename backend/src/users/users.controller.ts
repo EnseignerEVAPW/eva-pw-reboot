@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Post, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Patch } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
@@ -30,6 +30,16 @@ export class UsersController {
     return this.usersService.findImagesByUserId(userId);
   }
 
+  @Get(':username')
+  async findOneByUsername(@Param('username') username: string): Promise<User> {
+    return this.usersService.findOneByUsername(username);
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: number, @Body() updateUser: any): Promise<User> {
+    return this.usersService.update(id, updateUser);
+  }
+  
   @Get('online')
   async findAllOnlineUsers(): Promise<User[]> {
     return this.usersService.findAllOnlineUsers();

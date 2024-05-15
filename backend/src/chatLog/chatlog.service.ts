@@ -58,27 +58,7 @@ export class ChatLogService {
         this.items.push(newItem)
         return newItem
      }
-    uploadChatlog(name: string, content2: string, userId: number, user: any) { 
-        const existingItem = this.items.find(item => item.name === name);
-        if(existingItem){
-            console.log(existingItem)
-            
-            existingItem.content += "* " + content2;
-            return existingItem;
-        }else{
-            console.log("creo que era falso");
-            const newItem = {
-                id: v4(),
-                name,
-                createdAt: new Date(),
-                content: content2,
-                userId,
-                user
-            }
-            this.items.push(newItem)
-            return newItem
-        }
-    }
+    
     getChatlogById(id: string): ChatLog {
         return this.items.find(item => item.id === id)
     }

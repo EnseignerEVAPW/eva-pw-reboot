@@ -18,8 +18,25 @@ export class UsersService {
     return await this.usersRepository.save(createUserDto);
   }
 
+  async findAll(): Promise<User[]> {
+    return await this.usersRepository.find();
+  }
+
+  async getUserById(id: number): Promise<User> {
+    return await this.usersRepository.findOne({ where: { id } });
+  }
+  
+  async update(id: number, updateAnyFields: any) {
+    const item = await this.usersRepository.update(id, updateAnyFields);
+    if(item.affected === 1) {
+      return this.getUserById(id);
+    }else{
+      return null;
+    }
+  }
+
   async findOneByUsername(username: string) {
-    return await this.usersRepository.findOneBy({ username });
+    return await this.usersRepository.findOne({ where: {username} });
   }
   
   async findStudentByCoachId(coachId: string): Promise<User[]> {
