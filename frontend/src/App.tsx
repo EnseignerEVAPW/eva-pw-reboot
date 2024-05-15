@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import CoachForm from './components/view/CoachForm';
+import Teams from './pages/Teams';
 import { useState } from 'react';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/timeline" element={<Timeline />} />
+        <Route path="/teams" element={<Teams />} />
       </Routes>
       <Footer />
       <CoachForm show={modalOpen} onClose={closeModal} />
