@@ -8,6 +8,7 @@ import { ChatLogModule } from './chatLog/chatlog.module';
 import { ImagesModule } from './images/images.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppConfig, DatabaseConfig } from './config';
+import { TeamModule } from './team/team.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AppConfig, DatabaseConfig } from './config';
     AuthModule,
     ChatLogModule,
     ImagesModule,
+    TeamModule,
   ],
   controllers: [CodeforcesController],
   providers: [CodeforcesService],

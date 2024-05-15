@@ -39,9 +39,6 @@ export class UsersService {
     return await this.usersRepository.findOne({ where: {username} });
   }
   
-  async findStudentByCoachId(coachId: string): Promise<User[]> {
-    return await this.usersRepository.find({ where: { coachId } });
-  }
 
   async findChatLogsByUserId(userId: number): Promise<ChatLog[]> {
     const user = await this.usersRepository.findOne({ 

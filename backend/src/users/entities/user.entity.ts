@@ -18,18 +18,6 @@ export class User {
   @Column({ nullable: true, default: () => 'CURRENT_TIMESTAMP' }) 
   lastSeen: Date;
 
-  @Column({type: 'enum', enum: UserRole, default: UserRole.USER})
-  role: User;
-
-  @ManyToOne(() => User, coach => coach.students, {nullable:true})
-  coach: User;
-  
-  @Column({nullable: true})
-  coachId : string;
-
-  @OneToMany(() => User, student => student.coach)
-  students: User[];
-
   @OneToMany(()=> ChatLog, chatlog => chatlog.user)
   chatlogs: ChatLog[];
 
