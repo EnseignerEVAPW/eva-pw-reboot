@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository,MoreThanOrEqual } from "typeorm";
+import { Repository,MoreThanOrEqual,LessThan } from "typeorm";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { User } from "./entities/user.entity";
 import { ChatLog } from "src/chatLog/entities/chatlog.entity";
@@ -49,6 +49,16 @@ export class UsersService {
     return this.usersRepository.find({
       where: {
         lastSeen: MoreThanOrEqual(fifteenMinutesAgo),
+      },
+    });
+  }
+
+  async findAllOfflineUsers(): Promise<User[]> {
+    const fifteenMinutesAgo = new Date();
+    fifteenMinutesAgo.setMinutes(fifteenMinutesAgo.getMinutes() - 15);
+    return this.usersRepository.find({
+      where: {
+        lastSeen: LessThan(fifteenMinutesAgo),
       },
     });
   }
