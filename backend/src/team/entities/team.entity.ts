@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToOne,CreateDateColumn } from "typeorm";
+import { Column, Entity, ManyToOne, CreateDateColumn, OneToMany } from "typeorm";
 import { User } from "src/users/entities/user.entity";
+import { Training } from "src/training/entities/training.entity";
 
 @Entity()
 export class Team {
@@ -18,6 +19,9 @@ export class Team {
   @ManyToOne(() => User)
   coach: User;
 
-  @CreateDateColumn({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  @OneToMany(() => Training, training => training.team)
+  trainings: Training[];
+
+  @Column({ nullable: true, default: () => 'CURRENT_TIMESTAMP' }) 
   creationDate: Date;
 }

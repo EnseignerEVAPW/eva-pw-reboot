@@ -9,6 +9,8 @@ import { ImagesModule } from './images/images.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppConfig, DatabaseConfig } from './config';
 import { TeamModule } from './team/team.module';
+import { TrainingModule } from './training/training.module';
+import { BoardModule } from './board/board.module';
 
 @Module({
   imports: [
@@ -28,6 +30,8 @@ import { TeamModule } from './team/team.module';
     ChatLogModule,
     ImagesModule,
     TeamModule,
+    TrainingModule,
+    BoardModule,
   ],
   controllers: [CodeforcesController],
   providers: [CodeforcesService],
