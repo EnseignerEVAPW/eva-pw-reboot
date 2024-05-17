@@ -6,6 +6,7 @@ function InviteSearch() {
   const [search, setSearch] = useState('');
   const [students, setStudents] = useState([]);
   const [studentsFound, setStudentsFound] = useState([]);
+  const [team, setTeam] = useState([]);
 
   const saveName = (e) => {
     e.preventDefault();
@@ -13,19 +14,29 @@ function InviteSearch() {
     //BACKEND
     document.querySelector('#team-name').style.display = 'none';
     document.querySelector('#invite-search').style.display = 'block';
-    console.log(students);
   };
 
   const searchStudent = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
   };
+
+  const autocomplete = (e) => {
+    e.preventDefault();
+    setSearch(e.target.innerText);
+  };
+
+  const inviteTeam = (e) => {
+    e.preventDefault();
+    team.push(search);
+    //BACKEND?
+    setSearch('');
+  }
   const finishProcess = (e) => {
     e.preventDefault();
     console.log(search);
     //BACKEND
-    document.querySelector('#team-name').style.display = 'block';
-    document.querySelector('#invite-search').style.display = 'none';
+    window.location.reload();
   }
 
   useEffect(() => {
@@ -71,7 +82,7 @@ function InviteSearch() {
               <input className="mb-5 rounded px-3" type="text" placeholder="Ingresa el nombre de usuario" name="student" value={search} required onChange={searchStudent} />
               <div className='flex flex-row justify-between'>
                 <div className="w-min h-min bg-blue-500 px-5 text-blue-50 rounded-lg">
-                  <button type="submit" onClick={() => { }}>Invitar</button>
+                  <button type="submit" onClick={inviteTeam}>Invitar</button>
                 </div>
                 <div className="w-min h-min bg-blue-500 px-5 text-blue-50 rounded-lg">
                   <button type="submit" onClick={finishProcess}>Concluir</button>
@@ -85,10 +96,22 @@ function InviteSearch() {
           <div className="container flex flex-col px-10 my-5">
             {studentsFound.map((student) => (
               <div key={student.id} className="flex flex-row justify-between border-2 border-indigo-100 rounded-lg px-5  my-2">
-                <div className="text-indigo-100">{student.username}</div>
+                <button className="text-indigo-100" onClick={autocomplete}>{student.username}</button>
               </div>
             ))}
           </div>}
+        <div className='container flex flex-col bg-black rounded-lg my-5'>
+          <div className="text-2xl text-indigo-400 font-bold text-center mt-2">Team</div>
+          {team.length === 0 && <div className="text-indigo-400 text-center">No hay estudiantes en el team</div>}
+          {team.length > 0 &&
+            <div className="container flex px-10 my-5">
+              {team.map((student) => (
+                <div key={student} className="flex flex-row justify-between border-2 border-indigo-400 rounded-lg px-5 m-2">
+                  <button className="text-indigo-300">{student}</button>
+                </div>
+              ))}
+            </div>}
+        </div>
       </div>
     </div>
   );
