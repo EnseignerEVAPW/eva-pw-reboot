@@ -2,11 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './common/UIComponents';
 
 function VideoConferenceComp({ codeRoom }) {
-  const [id, setId] = useState('');
-  const [dataFromUser2, setDataFromUser2] = useState({
-    name: '',
-    content: '',
-  });
+  const [chatHistory, setChatHistory] = useState([]);
+  const [localUserName, setLocalUserName] = useState('Yo');
+  const [localUserId, setLocalUserId] = useState(null);
+  const [participants, setParticipants] = useState({});
   const apiRef = useRef(null);
 
   const convertRoom = (codeRoom) => {
@@ -18,7 +17,8 @@ function VideoConferenceComp({ codeRoom }) {
     }
     const roomNumber = parseInt(roomNumString);
     return roomNumber;
-  }
+  };
+
   useEffect(() => {
     const scriptId = 'jitsi';
     let script = document.getElementById(scriptId);
@@ -39,9 +39,55 @@ function VideoConferenceComp({ codeRoom }) {
           roomName: `vpaas-magic-cookie-15a65f78518d4474b1896c5505157fd8/${roomNumber}`,
           parentNode: document.querySelector('#jaas-container'),
         });
+
+        apiRef.current.on('videoConferenceJoined', (event) => {
+          console.log('videoConferenceJoined event:', event);
+          const localDisplayName = event.displayName;
+          setLocalUserName(localDisplayName);
+          const localUserId = apiRef.current.getMyUserId();
+          setLocalUserId(localUserId);
+          const participantsInfo = apiRef.current.getParticipantsInfo();
+          const participantNames = {};
+          participantsInfo.forEach(participant => {
+            participantNames[participant.participantId] = participant.displayName || 'Anonymous';
+          });
+          setParticipants(participantNames);
+        });
+
+        apiRef.current.on('participantJoined', (event) => {
+          setParticipants(prev => ({
+            ...prev,
+            [event.id]: event.displayName || 'Anonymous'
+          }));
+        });
+
+        apiRef.current.on('participantLeft', (event) => {
+          setParticipants(prev => {
+            const newParticipants = { ...prev };
+            delete newParticipants[event.id];
+            return newParticipants;
+          });
+        });
+
+        apiRef.current.on('displayNameChange', (event) => {
+          setParticipants(prev => ({
+            ...prev,
+            [event.id]: event.displayname || 'Anonymous'
+          }));
+        });
+
         apiRef.current.on('incomingMessage', (event) => {
-          console.log(`Message received from ${event.from}: ${event.message}`);
-          setDataFromUser2({ name: event.from, content: event.message });
+          setChatHistory(prevHistory => [
+            ...prevHistory,
+            { id: event.from, content: event.message }
+          ]);
+        });
+
+        apiRef.current.on('outgoingMessage', (event) => {
+          setChatHistory(prevHistory => [
+            ...prevHistory,
+            { id: localUserId, content: event.message }
+          ]);
         });
       } else {
         console.error('JitsiMeetExternalAPI not loaded');
@@ -54,47 +100,24 @@ function VideoConferenceComp({ codeRoom }) {
         apiRef.current = null;
       }
     };
-  }, []);
+  }, [codeRoom]);
 
-  const handleUpdates = () => {
-    const optionPatch = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dataFromUser2)
-    };
+  const handlePrintMessages = () => {
+    const messagesWithNames = chatHistory.map(msg => ({
+      name: participants[msg.id] || (msg.id === localUserId ? localUserName : 'Unknown'),
+      content: msg.content
+    }));
+    console.log(messagesWithNames);
 
-    fetch(`http://localhost:3000/chatLog/${id}`, optionPatch)
-      .then(response => response.json())
-      .then(response => console.log(response))
-      .catch(err => console.error("Error updating message: ", err));
-  };
-
-  const handleMessages = () => {
-    const optionsPost = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(dataFromUser2)
-    };
-
-    fetch('http://localhost:3000/chatLog', optionsPost)
-      .then(response => response.json())
-      .then(response => {
-        console.log(response);
-        setId(response.id);
-      })
-      .catch(err => console.error("Error posting message: ", err));
+    // Agrgar logica para guardar los mensajes
+ 
   };
 
   return (
     <div className="board-container flex flex-col h-full p-4 bg-gray-800 text-white rounded-lg shadow-lg">
       <div id="jaas-container" style={{ height: '90%' }} />
       <div className="flex justify-between p-4">
-        <Button color="primary" onClick={handleMessages}>Guardar mensajes recibidos</Button>
-        <Button color="primary" onClick={handleUpdates}>Actualizar mensajes</Button>
+        <Button color="primary" onClick={handlePrintMessages}>Obtener mensajes</Button>
       </div>
     </div>
   );
