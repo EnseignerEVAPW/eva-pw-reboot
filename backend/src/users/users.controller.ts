@@ -31,6 +31,10 @@ export class UsersController {
     return new Date();
   }
 
+  @Get('all')
+  async findAll(): Promise<User[]> {
+    return this.usersService.findAll();
+  }
 
   @Get('coach/:coachId/students')
   async findStudentByCoachId(@Param('coachId') coachId: string): Promise<User[]> {
