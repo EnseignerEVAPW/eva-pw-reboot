@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const RegisterForm = () => {
@@ -27,13 +27,15 @@ const RegisterForm = () => {
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     console.log('RegisterForm mounted');
   }, []);
 
   return (
     <form className="flex flex-col max-w-sm mx-auto mt-8" onSubmit={handleSubmit}>
-      <p className="text-sm text-yellow-600 mb-4">Haz Esto Primero: (solo para el registro) cambia tu primer nombre en codeforces a P2P-Auth</p>
+      <p className="text-sm text-yellow-600 mb-4">
+        Haz Esto Primero: (solo para el registro) cambia tu primer nombre en codeforces a P2P-Auth
+      </p>
       <div className="mb-4">
         <label htmlFor="username" className="block mb-2">Usuario:</label>
         <input
