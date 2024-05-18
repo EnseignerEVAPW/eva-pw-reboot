@@ -14,16 +14,18 @@ const RegisterForm = () => {
       return;
     }
     try {
+      console.log('Sending request to register with data:', { username, password, confirmPassword });
       const response = await axios.post('http://localhost:3000/auth/register', {
         username: username,
         password: password,
         passwordConfirmation: confirmPassword,
       });
 
+      console.log('Response from server:', response);
       alert(response.data.message);
     } catch (error) {
-      alert('Error al registrar usuario');
-      console.error('Error:', error);
+      console.error('Error during registration:', error);
+      alert('Error al registrar usuario: ' + (error.response?.data?.message || error.message));
     }
   };
 
