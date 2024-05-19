@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const RegisterForm = () => {
@@ -14,26 +14,30 @@ const RegisterForm = () => {
       return;
     }
     try {
+      console.log('Sending request to register with data:', { username, password, confirmPassword });
       const response = await axios.post('http://localhost:3000/auth/register', {
         username: username,
         password: password,
         passwordConfirmation: confirmPassword,
       });
 
+      console.log('Response from server:', response);
       alert(response.data.message);
     } catch (error) {
-      alert('Error al registrar usuario');
-      console.error('Error:', error);
+      console.error('Error during registration:', error);
+      alert('Error al registrar usuario: ' + (error.response?.data?.message || error.message));
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     console.log('RegisterForm mounted');
   }, []);
 
   return (
     <form className="flex flex-col max-w-sm mx-auto mt-8" onSubmit={handleSubmit}>
-      <p className="text-sm text-yellow-600 mb-4">Haz Esto Primero: (solo para el registro) cambia tu primer nombre en codeforces a P2P-Auth</p>
+      <p className="text-sm text-yellow-600 mb-4">
+        Haz Esto Primero: (solo para el registro) cambia tu primer nombre en codeforces a P2P-Auth
+      </p>
       <div className="mb-4">
         <label htmlFor="username" className="block mb-2">Usuario:</label>
         <input

@@ -1,5 +1,4 @@
-// Profile.js
-import React from 'react';
+import React, { useState } from 'react';
 import UserProfile from '../services/useProfile';
 import Calendar from '../components/view/Calendar';
 import { useNavigate } from 'react-router-dom';
@@ -34,6 +33,13 @@ const Profile = () => {
   const navigateTeams = () => {
     navigate('/teams');
   };
+
+  const [fetchedUsername, setFetchedUsername] = useState('');
+
+  const handleUsernameFetched = (username) => {
+    setFetchedUsername(username);
+  };
+
   return (
     <>
       <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 p-10 pb-0 ${textColor}`}>
@@ -41,12 +47,12 @@ const Profile = () => {
           <div className={`flex items-center space-x-4 mb-4 justify-between`}>
             <div className='flex gap-y-2.5'>
               <div
-                className="w-24 h-24 rounded-full flex items-center justify-center text-4xl font-semibold border-2 ${borderColor}"
+                className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl font-semibold border-2 highlightColor`}
               >
-                {userInfo.username.charAt(0).toUpperCase()}
+                {fetchedUsername.charAt(0).toUpperCase()}
               </div>
               <div className='mx-10'>
-                <h2 className={`text-2xl font-semibold ${highlightColor}`} ><UserProfile /></h2>
+                <h2 className={`text-2xl font-semibold ${highlightColor}`}><UserProfile onUsernameFetched={handleUsernameFetched} /></h2>
                 <p className="text-sm">{userInfo.country}</p>
                 <p className="text-sm">{userInfo.email}</p>
               </div>
