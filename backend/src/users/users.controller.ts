@@ -31,6 +31,11 @@ export class UsersController {
     return new Date();
   }
 
+  @Get('all')
+  async findAll(): Promise<User[]> {
+    return this.usersService.findAll();
+  }
+
   @Get(':userId/chatlogs')
   async findChatLogsByUserId(@Param('userId') userId: number): Promise<ChatLog[]> {
     return this.usersService.findChatLogsByUserId(userId);
