@@ -11,23 +11,13 @@ import ModoICPC from './pages/ModoICPC';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Timeline from './pages/Timeline';
-import CoachForm from './components/view/CoachForm';
 import Teams from './pages/Teams';
-import { useState } from 'react';
 
 function App() {
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
   return (
     <Router>
-      <Header openModal={openModal}/>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/compete" element={<Compete />} />
@@ -41,7 +31,6 @@ function App() {
         <Route path="/teams" element={<Teams />} />
       </Routes>
       <Footer />
-      <CoachForm show={modalOpen} onClose={closeModal} />
     </Router>
   );
 }

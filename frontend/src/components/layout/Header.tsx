@@ -1,10 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const Header = ({openModal}) => {
-  const handleOpenModal = () => {
-    openModal();
-  }
-
+const Header = () => {
   return (
     <header className="bg-gray-900 text-white p-5 w-full">
       <div className="container mx-auto flex justify-between items-center w-full">
@@ -20,7 +16,6 @@ const Header = ({openModal}) => {
             <Link to="/modoICPC" className="hover:text-blue-500">Entrenar</Link>
             <Link to="/rules" className="hover:text-blue-500">Reglas</Link>
             <Link to="/profile" className="hover:text-blue-500">Perfil</Link>
-            <Link to="/profile" className="hover:text-blue-500" onClick={handleOpenModal}>Ser Coach</Link>
           </nav>
         </div>
         <div className="flex space-x-4">

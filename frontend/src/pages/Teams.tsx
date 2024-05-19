@@ -2,9 +2,9 @@ import { useState } from 'react';
 import InviteSearch from '../components/InviteSearch';
 
 const teams = [
-  { name: 'ejemplito', users: ['Lana1', 'Tomato2', 'Desire'], inactive: 0 },
-  { name: 'ejemplito2', users: ['Top12', 'Tomato2', 'Ejemplo2'], inactive: 0 },
-  { name: 'ejemplito3', users: ['Tomato2', 'Hola2', 'Desire'], inactive: 0 },
+  { name: 'ejemplito', users: ['Lana1', 'Tomato2', 'Desire']},
+  { name: 'ejemplito2', users: ['Top12', 'Tomato2', 'Ejemplo2'] },
+  { name: 'ejemplito3', users: ['Tomato2', 'Hola2', 'Desire'] },
 ];
 
 const header = 'text-base bg-[#141d30] py-2 text-center rounded-lg font-medium text-indigo-200'
@@ -16,7 +16,6 @@ const Teams = () => {
         <div className='grid grid-cols-6 gap-4 mb-3'>
           <div className={header}>Nombre team</div>
           <div className={`col-span-3 ${header}`}>Participantes</div>
-          <div className={header}>Inactivos</div>
         </div>
         {teams.map((team) => (
           <div key={team.name} className='grid grid-cols-6 gap-4 mb-2'>
@@ -36,7 +35,6 @@ const Teams = () => {
                 </div>
               ))}
             </div>
-            <div className='text-base bg-indigo-200 py-2 text-center rounded-lg'>{team.inactive}</div>
           </div>
         ))}
       </div>
