@@ -9,6 +9,7 @@ export class TeamController {
 
   @Post()
   create(@Body() createTeamDto: CreateTeamDto) {
+    return "paila";
     return this.teamService.create(createTeamDto);
   }
 

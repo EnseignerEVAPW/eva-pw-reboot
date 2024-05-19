@@ -1,12 +1,12 @@
-/* eslint-disable prettier/prettier */
-import { Column, Entity, ManyToOne, OneToMany, BeforeInsert } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, ManyToMany, JoinTable, PrimaryGeneratedColumn } from "typeorm";
 import { UserRole } from "./user-role.enum";
 import { ChatLog } from "src/chatLog/entities/chatlog.entity";
 import { Image } from "src/images/entities/images.entity";
+import { Team } from "src/team/entities/team.entity"; // Importa la entidad Team
 
 @Entity()
 export class User {
-  @Column({ primary: true, generated: true })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 25, unique: true, nullable: false })
@@ -24,4 +24,6 @@ export class User {
   @OneToMany(()=> Image, image => image.user)
   images: Image[];
 
+  @ManyToMany(() => Team, team => team.contestants) // Definición de la relación ManyToMany en User
+  teamsAsContestant: Team[]; // Define la propiedad teamsAsContestant que representa los equipos a los que el usuario pertenece como concursante
 }
