@@ -1,10 +1,6 @@
 import { Link } from 'react-router-dom';
 
-const Header = ({openModal}) => {
-  const handleOpenModal = () => {
-    openModal();
-  }
-
+const Header = () => {
   return (
     <header className="bg-gray-900 text-white p-5 w-full">
       <div className="container mx-auto flex justify-between items-center w-full">

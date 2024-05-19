@@ -1,0 +1,43 @@
+.container2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: black;
+}
+
+.title1 {
+    font-size: 4rem;
+    color: royalblue;
+    margin-bottom: 1rem;
+    font-weight: bolder;
+}
+.title1>span {
+    color: rgb(111, 109, 201) ;
+    font-size: 5.5rem;
+}
+
+.title2 {
+    font-size: 2.5rem;
+    color: rgb(77, 106, 160);
+    margin-bottom: 1rem;
+    font-weight: bolder;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: rgb(195, 202, 214);
+    margin-bottom: 2.5rem;
+}
+
+.cursor {
+    background-color: rgb(111, 109, 201);
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}

@@ -12,12 +12,12 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import Teams from './pages/Teams';
-import { useState } from 'react';
 
 function App() {
 
   return (
     <Router>
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/compete" element={<Compete />} />
