@@ -16,7 +16,21 @@ export class TeamService {
   ) {}
 
   async create(createTeamDto: CreateTeamDto): Promise<Team> {
-    return;
+    const { nombre, contestantIds, coachId } = createTeamDto;
+
+    // Buscar el entrenador por ID
+    const coach = await this.userRepository.findOne({ where: { id: coachId } });
+    if (!coach) {
+      throw new Error(`Coach with ID ${coachId} not found`);
+    }
+  
+    const team = new Team();
+    team.nombre = nombre;
+    team.coach = coach;
+    team.contestants = await this.userRepository.findByIds(contestantIds);
+
+    // Guardar el equipo en la base de datos
+    return this.teamRepository.save(team);
   }
 
   findAll() {
