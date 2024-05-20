@@ -7,11 +7,31 @@ function InviteSearch() {
   const [students, setStudents] = useState([]);
   const [studentsFound, setStudentsFound] = useState([]);
   const [team, setTeam] = useState([]);
-
-  const saveName = (e) => {
+  const [teamId, setTeamId] = useState('');
+  const saveName = async (e) => {
     e.preventDefault();
-    console.log(name);
-    //BACKEND
+    
+    
+    try {
+      // Realizar la llamada POST al backend para crear el equipo
+      const response = await axios.post('http://localhost:3000/team', {
+        nombre: name,
+        coachId: 1 // ID del entrenador, cambiar por el ID del usuario logueado
+      });
+  
+      if (response.status === 201) {
+        const teamId = response.data.id;
+        setTeamId(teamId); // Actualizar el estado del ID del equipo
+        console.log('Equipo creado:', response.data);
+        console.log('ID del equipo:', teamId);
+        document.querySelector('#team-name').style.display = 'none';
+        document.querySelector('#invite-search').style.display = 'block';
+      }
+    } catch (error) {
+      console.error('Error al crear el equipo:', error);
+    }
+
+
     document.querySelector('#team-name').style.display = 'none';
     document.querySelector('#invite-search').style.display = 'block';
   };
@@ -26,10 +46,20 @@ function InviteSearch() {
     setSearch(e.target.innerText);
   };
 
-  const inviteTeam = (e) => {
+  const inviteTeam = async (e) => {
     e.preventDefault();
     team.push(search);
-    //BACKEND?
+    //BACKEND invite search to team
+    try{
+      const response = await axios.post('http://localhost:3000/team/invite', {
+        username: search
+      });
+      console.log(response);
+    }
+    catch(error){
+      console.log(error);
+    }
+
     setSearch('');
   }
   const finishProcess = (e) => {
