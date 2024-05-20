@@ -16,20 +16,34 @@ export class TeamService {
   ) {}
 
   async create(createTeamDto: CreateTeamDto): Promise<Team> {
-    const { nombre, contestantIds, coachId } = createTeamDto;
+    const { nombre, coachId } = createTeamDto;
 
     // Buscar el entrenador por ID
     const coach = await this.userRepository.findOne({ where: { id: coachId } });
     if (!coach) {
       throw new Error(`Coach with ID ${coachId} not found`);
     }
-  
+    
     const team = new Team();
     team.nombre = nombre;
     team.coach = coach;
-    team.contestants = await this.userRepository.findByIds(contestantIds);
-
+    team.contestants = [];
     // Guardar el equipo en la base de datos
+    return this.teamRepository.save(team);
+  }
+
+  async inviteContestant(teamId: number, userId: number): Promise<Team> {
+    const team = await this.teamRepository.findOne({ where: { id: teamId }, relations: ['contestants'] });
+    if (!team) {
+      throw new NotFoundException(`Team with ID ${teamId} not found`);
+    }
+     
+    const contestant = await this.userRepository.findOne({ where: { id: userId } });
+    if (!contestant) {
+      throw new NotFoundException(`User with ID ${userId} not found`);
+    }
+
+    team.contestants.push(contestant);
     return this.teamRepository.save(team);
   }
 
