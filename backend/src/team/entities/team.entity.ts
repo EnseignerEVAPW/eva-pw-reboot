@@ -1,27 +1,25 @@
-import { Column, Entity, ManyToOne, CreateDateColumn, OneToMany } from "typeorm";
-import { User } from "src/users/entities/user.entity";
-import { Training } from "src/training/entities/training.entity";
+import { Entity, Column, ManyToOne, ManyToMany, JoinTable, PrimaryGeneratedColumn,OneToMany } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Training } from 'src/training/entities/training.entity';
 
 @Entity()
 export class Team {
-  @Column({ primary: true, generated: true })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ length: 50, nullable: false })
   nombre: string;
 
-  @ManyToOne(() => User)
-  contestan1: User;
+  @ManyToMany(() => User) // No es necesario definir la relación ManyToMany aquí
+  @JoinTable()
+  contestants: User[];
 
-  @ManyToOne(() => User)
-  contestan2: User;
-
-  @ManyToOne(() => User)
-  coach: User;
+  @ManyToOne(() => User, { onDelete: 'CASCADE', nullable: false })
+  coach: User; // Definición de la relación con el entrenador
 
   @OneToMany(() => Training, training => training.team)
   trainings: Training[];
 
-  @Column({ nullable: true, default: () => 'CURRENT_TIMESTAMP' }) 
+  @Column({ nullable: false, default: () => 'CURRENT_TIMESTAMP' })
   creationDate: Date;
 }

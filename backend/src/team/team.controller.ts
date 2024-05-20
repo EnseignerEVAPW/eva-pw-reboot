@@ -31,4 +31,13 @@ export class TeamController {
   remove(@Param('id') id: string) {
     return this.teamService.remove(+id);
   }
+
+  @Post(':teamId/invite/:username')
+  inviteContestant(
+    @Param('teamId') teamId: string,
+    @Param('username') username: string
+  ) {
+    return this.teamService.inviteContestant(+teamId, username);
+  }
+
 }
