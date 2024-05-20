@@ -49,19 +49,18 @@ function InviteSearch() {
   const inviteTeam = async (e) => {
     e.preventDefault();
     team.push(search);
-    //BACKEND invite search to team
-    try{
-      const response = await axios.post('http://localhost:3000/team/invite', {
-        username: search
-      });
-      console.log(response);
-    }
-    catch(error){
+    // BACKEND invite search to team
+    try {
+      // cambiar el team 6 por el team id
+      const response = await axios.post(`http://localhost:3000/team/6/invite/${search}`);
+      console.log("respuesta  "+response);
+    } catch (error) {
       console.log(error);
     }
 
     setSearch('');
-  }
+  };
+
   const finishProcess = (e) => {
     e.preventDefault();
     console.log(search);

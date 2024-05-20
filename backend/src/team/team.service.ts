@@ -32,20 +32,21 @@ export class TeamService {
     return this.teamRepository.save(team);
   }
 
-  async inviteContestant(teamId: number, userId: number): Promise<Team> {
+  async inviteContestant(teamId: number, username: string) {
     const team = await this.teamRepository.findOne({ where: { id: teamId }, relations: ['contestants'] });
     if (!team) {
       throw new NotFoundException(`Team with ID ${teamId} not found`);
     }
-     
-    const contestant = await this.userRepository.findOne({ where: { id: userId } });
+    
+    const contestant = await this.userRepository.findOne({ where: { username } });
     if (!contestant) {
-      throw new NotFoundException(`User with ID ${userId} not found`);
+      throw new NotFoundException(`User with username ${username} not found`);
     }
 
     team.contestants.push(contestant);
     return this.teamRepository.save(team);
   }
+  
 
   findAll() {
     return `This action returns all team`;
