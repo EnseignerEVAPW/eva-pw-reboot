@@ -15,8 +15,11 @@ const LoginForm = () => {
         password: password,
       });
       const token = response.data.token;
-      sessionStorage.setItem('token', token);
-      navigate('/profile');
+      const redirect = async () =>{
+        sessionStorage.setItem('token', token);
+        await navigate('/profile');
+      }
+      redirect();
     } catch (error) {
       alert('Error al hacer login');
       console.error('El error:', error);
