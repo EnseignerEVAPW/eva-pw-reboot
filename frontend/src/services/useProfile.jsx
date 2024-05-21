@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const UserProfile = ({ onUsernameFetched }) => {
+export function useProfile() {
   const [username, setUsername] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem('token');
+      const token = sessionStorage.getItem('token');
       if (!token) {
         console.error('No authentication token found.');
         return;
       }
-
       console.log('Token found:', token);
 
       try {
@@ -22,21 +21,12 @@ const UserProfile = ({ onUsernameFetched }) => {
         });
         const fetchedUsername = response.data.username;
         setUsername(fetchedUsername);
-        if (onUsernameFetched) {
-          onUsernameFetched(fetchedUsername);
-        }
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
     };
 
     fetchData();
-  }, [onUsernameFetched]);
-  return (
-    <div>
-      {username ? <p>{username}</p> : <></>}
-    </div>
-  );
-};
-
-export default UserProfile;
+  }, []);
+  return username;
+}

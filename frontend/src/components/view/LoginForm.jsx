@@ -15,7 +15,7 @@ const LoginForm = () => {
         password: password,
       });
       const token = response.data.token;
-      localStorage.setItem('token', token);
+      sessionStorage.setItem('token', token);
       navigate('/profile');
     } catch (error) {
       alert('Error al hacer login');
