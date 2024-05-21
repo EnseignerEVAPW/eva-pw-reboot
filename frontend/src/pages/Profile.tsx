@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import UserProfile from '../services/useProfile';
+import {useProfile} from '../services/useProfile';
 import Calendar from '../components/view/Calendar';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,14 +30,9 @@ const borderColor = 'border-gray-800';
 
 const Profile = () => {
   const navigate = useNavigate();
+  const usernamee = useProfile();
   const navigateTeams = () => {
     navigate('/teams');
-  };
-
-  const [fetchedUsername, setFetchedUsername] = useState('');
-
-  const handleUsernameFetched = (username) => {
-    setFetchedUsername(username);
   };
 
   return (
@@ -49,10 +44,10 @@ const Profile = () => {
               <div
                 className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl font-semibold border-2 highlightColor`}
               >
-                {fetchedUsername.charAt(0).toUpperCase()}
+                {usernamee.charAt(0).toUpperCase()}
               </div>
               <div className='mx-10'>
-                <h2 className={`text-2xl font-semibold ${highlightColor}`}><UserProfile onUsernameFetched={handleUsernameFetched} /></h2>
+                <h2 className={`text-2xl font-semibold ${highlightColor}`}>{usernamee}</h2>
                 <p className="text-sm">{userInfo.country}</p>
                 <p className="text-sm">{userInfo.email}</p>
               </div>

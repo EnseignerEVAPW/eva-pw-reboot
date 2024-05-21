@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
+import { isUserLogged } from '../../utils/tokenUtils';
 
-const Header = () => {
+const Header =  () => {
+  const isLogged = isUserLogged();
   return (
     <header className="bg-gray-900 text-white p-5 w-full">
       <div className="container mx-auto flex justify-between items-center w-full">
@@ -19,7 +21,11 @@ const Header = () => {
           </nav>
         </div>
         <div className="flex space-x-4">
-          <Link to="/login" className="text-gray-300 hover:text-blue-500">Login</Link>
+          { isLogged ?
+            (<Link to="/logout" className="text-gray-300 hover:text-blue-500">Logout</Link>)
+            :
+            (<Link to="/login" className="text-gray-300 hover:text-blue-500">Login</Link>)
+          }
           <i className="fas fa-search text-gray-300 hover:text-blue-500"></i>
           <i className="fas fa-user text-gray-300 hover:text-blue-500"></i>
         </div>

@@ -12,23 +12,27 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import Teams from './pages/Teams';
+import Logout from './components/Logout';
+
+import { isUserLogged } from './utils/tokenUtils';
 
 function App() {
-
+  const isLogged = isUserLogged();
   return (
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />}/>
         <Route path="/compete" element={<Compete />} />
-        <Route path="/entrenar" element={<Train />} />
+        <Route path="/entrenar" element={isLogged?<Train />:<Login/>} />
         <Route path="/rules" element={<Rules />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/ModoICPC" element={<ModoICPC />} />
+        <Route path="/profile" element={isLogged?<Profile />:<Login/>} />
+        <Route path="/ModoICPC" element={isLogged?<ModoICPC/>:<Login/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/timeline" element={<Timeline />} />
-        <Route path="/teams" element={<Teams />} />
+        <Route path="/timeline" element={isLogged?<Timeline />:<Login/>} />
+        <Route path="/teams" element={isLogged?<Teams />:<Login/>} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
       <Footer />
     </Router>
