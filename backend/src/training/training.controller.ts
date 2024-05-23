@@ -8,8 +8,29 @@ export class TrainingController {
   constructor(private readonly trainingService: TrainingService) {}
 
   @Post()
-  create(@Body() createTrainingDto: CreateTrainingDto) {
-    return this.trainingService.create(createTrainingDto);
+  async create(@Body() createTrainingDto: CreateTrainingDto) {
+    const training = await this.trainingService.create(createTrainingDto);
+    return training;
+  }
+
+  @Get()
+  async findAll() {
+    return this.trainingService.findAll();
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    return this.trainingService.findOne(+id);
+  }
+
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateTrainingDto: UpdateTrainingDto) {
+    return this.trainingService.update(+id, updateTrainingDto);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: string) {
+    return this.trainingService.remove(+id);
   }
 
   @Get('dummy')

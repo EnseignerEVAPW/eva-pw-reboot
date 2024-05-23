@@ -5,6 +5,7 @@ import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from './entities/team.entity';
 import { User } from 'src/users/entities/user.entity';
+
 @Injectable()
 export class TeamService {
   constructor(
@@ -46,7 +47,7 @@ export class TeamService {
     team.contestants.push(contestant);
     return this.teamRepository.save(team);
   }
-  
+
   async getTeamsByCoach(userId: number): Promise<Team[]> {
     return this.teamRepository.find({
       where: { coach: { id: userId } },
@@ -54,19 +55,34 @@ export class TeamService {
     });
   }
 
-  findAll() {
-    return `This action returns all team`;
+  async findAll(): Promise<Team[]> {
+    return this.teamRepository.find({ relations: ['coach', 'contestants'] });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} team`;
+  async findOne(id: number): Promise<Team> {
+    const team = await this.teamRepository.findOne({ where: { id }, relations: ['coach', 'contestants'] });
+    if (!team) {
+      throw new NotFoundException(`Team with ID ${id} not found`);
+    }
+    return team;
   }
 
-  update(id: number, updateTeamDto: UpdateTeamDto) {
-    return `This action updates a #${id} team`;
+  async update(id: number, updateTeamDto: UpdateTeamDto): Promise<Team> {
+    const team = await this.teamRepository.preload({
+      id,
+      ...updateTeamDto,
+    });
+    if (!team) {
+      throw new NotFoundException(`Team with ID ${id} not found`);
+    }
+    return this.teamRepository.save(team);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} team`;
+  async remove(id: number): Promise<void> {
+    const team = await this.teamRepository.findOne({ where: { id } });
+    if (!team) {
+      throw new NotFoundException(`Team with ID ${id} not found`);
+    }
+    await this.teamRepository.remove(team);
   }
 }
