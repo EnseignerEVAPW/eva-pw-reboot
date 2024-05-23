@@ -47,6 +47,12 @@ export class TeamService {
     return this.teamRepository.save(team);
   }
   
+  async getTeamsByCoach(userId: number): Promise<Team[]> {
+    return this.teamRepository.find({
+      where: { coach: { id: userId } },
+      relations: ['contestants'],
+    });
+  }
 
   findAll() {
     return `This action returns all team`;
