@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 function GeneradorCodigo() {
   const [codeInvite, setCodeInvite] = useState('');
   const [navigateOnCode, setNavigateOnCode] = useState(false);
-  const [teams, setTeams] = useState([]);
-  const [selectedTeam, setSelectedTeam] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,33 +13,6 @@ function GeneradorCodigo() {
       navigate(`/entrenar?codeInvite=${codeInvite}&isCreator=true`);
     }
   }, [codeInvite, navigateOnCode, navigate]);
-
-  useEffect(() => {
-    const fetchTeams = async () => {
-      try {
-        const token = sessionStorage.getItem('token');
-        if (!token) {
-          console.error('No token found in sessionStorage');
-          return;
-        }
-        const response = await axios.get('http://localhost:3000/team/my-teams', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        if (Array.isArray(response.data)) {
-          setTeams(response.data);
-        } else {
-          setTeams([]);
-        }
-      } catch (error) {
-        console.error('Error al obtener los equipos:', error);
-        setTeams([]);
-      }
-    };
-
-    fetchTeams();
-  }, []);
 
   function generateCode() {
     let result = '';
@@ -62,10 +32,6 @@ function GeneradorCodigo() {
   }
 
   const handleCreateRoom = () => {
-    if (!selectedTeam) {
-      alert('Por favor, selecciona un equipo para continuar.');
-      return;
-    }
     localStorage.removeItem('hasReloaded');
     generateCode();
     setNavigateOnCode(true);
@@ -86,24 +52,9 @@ function GeneradorCodigo() {
           Haz clic en <span className="font-bold">Crear Sala</span> para obtener un vínculo que puedas enviar a las personas con quienes quieras reunirte.
         </p>
         <div className="flex flex-col gap-4">
-          <select
-            value={selectedTeam}
-            onChange={e => setSelectedTeam(e.target.value)}
-            className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-md text-white"
-          >
-            <option value="">Selecciona un equipo</option>
-            {teams.map(team => (
-              <option key={team.id} value={team.id}>
-                {team.nombre}
-              </option>
-            ))}
-          </select>
           <button
-            className={`w-full px-4 py-2 text-white rounded-md shadow ${
-              selectedTeam ? 'bg-blue-700 hover:bg-blue-800' : 'bg-gray-500 cursor-not-allowed'
-            }`}
+            className="w-full px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-md shadow"
             onClick={handleCreateRoom}
-            disabled={!selectedTeam}
           >
             Crear Sala
           </button>
