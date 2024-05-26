@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {useProfile} from '../services/useProfile';
 
 function InviteSearch() {
+  const {username, id} = useProfile();
   const [name, setName] = useState('');
   const [search, setSearch] = useState('');
   const [students, setStudents] = useState([]);
   const [studentsFound, setStudentsFound] = useState([]);
   const [team, setTeam] = useState([]);
   const [teamId, setTeamId] = useState('');
+
   const saveName = async (e) => {
     e.preventDefault();
-    
-    
     try {
       // Realizar la llamada POST al backend para crear el equipo
       const response = await axios.post('http://localhost:3000/team', {

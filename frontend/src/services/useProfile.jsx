@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export function useProfile() {
   const [username, setUsername] = useState('');
+  const [id, setId] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,9 +25,15 @@ export function useProfile() {
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
+      try{
+        const forId = await axios.get(`http://localhost:3000/users/${username}`);
+        setId(forId.data.id);
+      }catch (error) {
+        console.error('Error with searching id of user');
+      }
     };
 
     fetchData();
   }, []);
-  return username;
+  return {username, id};
 }

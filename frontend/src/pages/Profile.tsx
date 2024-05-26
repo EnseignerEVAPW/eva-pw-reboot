@@ -30,7 +30,7 @@ const borderColor = 'border-gray-800';
 
 const Profile = () => {
   const navigate = useNavigate();
-  const usernamee = useProfile();
+  const {username }= useProfile();
   const navigateTeams = () => {
     navigate('/teams');
   };
@@ -44,10 +44,10 @@ const Profile = () => {
               <div
                 className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl font-semibold border-2 highlightColor`}
               >
-                {usernamee.charAt(0).toUpperCase()}
+                {username.charAt(0).toUpperCase()}
               </div>
               <div className='mx-10'>
-                <h2 className={`text-2xl font-semibold ${highlightColor}`}>{usernamee}</h2>
+                <h2 className={`text-2xl font-semibold ${highlightColor}`}>{username}</h2>
                 <p className="text-sm">{userInfo.country}</p>
                 <p className="text-sm">{userInfo.email}</p>
               </div>
