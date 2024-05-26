@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {useProfile} from '../services/useProfile';
 import Calendar from '../components/view/Calendar';
 import { useNavigate } from 'react-router-dom';

@@ -22,14 +22,10 @@ export function useProfile() {
         });
         const fetchedUsername = response.data.username;
         setUsername(fetchedUsername);
+        const forId = await axios.get(`http://localhost:3000/users/${fetchedUsername}`);
+        setId(forId.data.id);
       } catch (error) {
         console.error('Error fetching profile data:', error);
-      }
-      try{
-        const forId = await axios.get(`http://localhost:3000/users/${username}`);
-        setId(forId.data.id);
-      }catch (error) {
-        console.error('Error with searching id of user');
       }
     };
 

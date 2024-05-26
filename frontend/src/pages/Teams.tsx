@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InviteSearch from '../components/InviteSearch';
 
 const teams = [
@@ -10,6 +10,10 @@ const teams = [
 const header = 'text-base bg-[#141d30] py-2 text-center rounded-lg font-medium text-indigo-200'
 
 const Teams = () => {
+  const [allTeams, setAllTeams ] = useState([]);
+  useEffect(()=>{
+    
+  },[])
   return (
     <div className="grid grid-rows-3 grid-cols-6 gap-4 m-10">
       <div className="row-span-3 col-span-4">
