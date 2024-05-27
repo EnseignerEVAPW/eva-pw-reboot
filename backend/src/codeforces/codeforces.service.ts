@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // codeforces.service.ts
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
@@ -66,4 +67,21 @@ export class CodeforcesService {
     }
   }
 
+  async getInfoForProfile(username: string){
+    try{
+      const response = await axios.get(`https://codeforces.com/api/user.info?handles=${username}&checkHistoricHandles=false`);
+      return response.data;
+    } catch (error) {
+      return null;
+    }
+  } 
+
+  async getValuesHeatMap(username: string) {
+    try{
+      const response =  await axios.get(`https://codeforces.com/api/user.status?handle=${username}`);
+      return response.data.result;
+    } catch (error) {
+      return null;
+    }
+  }
 }
