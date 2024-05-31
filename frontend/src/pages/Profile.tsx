@@ -66,7 +66,7 @@ const Profile = () => {
     <>
       <div className={`grid grid-cols-1 md:grid-cols-2 gap-8 p-10 pb-0 ${textColor}`}>
         <div className={`user-info rounded-lg p-6 mb-4 border ${borderColor} shadow-md ${backgroundColor}`}>
-          <div className={`flex items-center space-x-4 mb-4 justify-between`}>
+          <div className={`flex flex-wrap items-center space-x-4 mb-4 justify-between`}>
             <div className='flex gap-y-2.5'>
               <div
                 className={`w-24 h-24 rounded-full flex items-center justify-center text-4xl font-semibold border-2 highlightColor`}
@@ -87,13 +87,12 @@ const Profile = () => {
             <p className="mb-2"><strong className={`${highlightColor}`}>Status:</strong> {status}</p>
             <p className="mb-2"><strong className={`${highlightColor}`}>Nombre:</strong> {firstName}</p>
             <p className="mb-2">
-              <strong className={`${highlightColor}`}>Contribution:</strong>
+              <strong className={`${highlightColor}`}>Contribution: </strong>
               {contribution}
             </p>
-            <p><strong className={`${highlightColor}`}>Rating:</strong> {rating}</p>
+            <p><strong className={`${highlightColor}`}>Rating: </strong> {rating}</p>
           </div>
-        </div>
-        
+        </div>  
       </div>
       <div className={`p-6 m-10 rounded-lg border ${borderColor} shadow-md mt-4 ${textColor} ${backgroundColor}`}>
         <Calendar name={username} />

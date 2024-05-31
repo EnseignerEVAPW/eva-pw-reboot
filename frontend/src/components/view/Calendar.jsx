@@ -5,46 +5,54 @@ import '../../../public/styles.css'
 import axios from 'axios';
 
 function Calendar({name}) {
-  const endDate = new Date('December 31, 2023');
-  const startDate = new Date('January 01, 2023');
+  const [endDate, setEndDate] = useState(new Date('December 31, 2023'));
+  const [startDate, setStartDate] = useState(new Date('January 01, 2023'));
   const [calendar, setCalendar] = useState({});
+  const [allYears, setAllYears] = useState([]);
   const [max, setMax] = useState(0);
   const [yearSelected, setYearSelected] = useState('2023');
-  const [maxValue, setMaxValue] = useState(0);
   const [heatmapData, setHeatmapData] = useState([]);
   const [monthLabels, setMonthLabels] = useState([]);
+
   useEffect(() => {
-    async function getActivityCalendar(handle) {
+    const getActivityCalendar = async (handle) => {
       try {
+        const obtainedYears = []; 
         const response = await axios.get(`http://localhost:3000/codeforces/values/${handle}`);
         const submissions = response.data;
         const submissionDates = submissions.map(submission => new Date(submission.creationTimeSeconds * 1000));
-        
         const calendar = submissionDates.reduce((acc, date) => {
           const year = date.getFullYear();
           const month = date.getMonth() + 1; // Los meses son indexados desde cero
           const day = date.getDate();
           
+          if(!obtainedYears.includes(year)){
+            obtainedYears.push(year);
+          }
+
           if (!acc[year]) acc[year] = {};
           if (!acc[year][month]) acc[year][month] = [];
           acc[year][month].push(day);
           return acc;
         }, {});
-        console.log('vengo', calendar);
+
+        setAllYears(obtainedYears);
+        setStartDate(new Date(`January 01, ${obtainedYears[0]}`))
+        setEndDate(new Date(`December 31, ${obtainedYears[0]}`))
         setCalendar(calendar);
-        //valuesCalendar(calendar);
       } catch (error) {
         console.error('Error fetching user status data:', error);
       }
     }
-    
-    getActivityCalendar('JudithMPeach');
-  }, []);
+    getActivityCalendar(name);
+  }, [name]);
 
   useEffect(()=> {
     setHeatmapData(generateHeatmapValues());
     setMonthLabels(generateMonthLabels().reverse());
-  },[calendar]);
+    setStartDate(new Date(`January 01, ${yearSelected}`))
+    setEndDate(new Date(`December 31, ${yearSelected}`))
+  },[calendar, yearSelected]);
 
   const generateHeatmapValues = () => {
     const values = [];
@@ -69,7 +77,6 @@ function Calendar({name}) {
       });
       currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
     }
-    console.log('mis values', values, 'maximo', maximoo);
     setMax(maximoo);
     return values;
   };
@@ -91,10 +98,15 @@ function Calendar({name}) {
     return monthLabels2.reverse();
   };
 
-  //const heatmapData = generateHeatmapValues();
-  
-
   return (
+    <>
+    <div className='flex '>
+      {allYears && allYears.map((yearOne) => (
+        <div className='mx-5 px-5 border-blue-600 border-2 rounded'>
+          <button onClick={() => {setYearSelected(yearOne)}}>{yearOne}</button>
+        </div>
+      ))}
+    </div>
     <div className="calendar-heatmap-container">
       <div className="month-labels-container">
         {monthLabels.map((label, index, array) => (
@@ -111,7 +123,6 @@ function Calendar({name}) {
           if (!value || value.count === 0)
             return 'color-empty';
           const aux = parseInt(value.count*4/max);
-          console.log('hey', aux)
           return `color-scale-${aux}`;
         }}
         showMonthLabels={false}
@@ -122,6 +133,7 @@ function Calendar({name}) {
         }}
       />
     </div>
+    </>
   );
 }
 
