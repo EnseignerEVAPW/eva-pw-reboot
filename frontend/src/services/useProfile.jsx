@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export function useProfile() {
   const [username, setUsername] = useState('');
+  const [id, setId] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +22,8 @@ export function useProfile() {
         });
         const fetchedUsername = response.data.username;
         setUsername(fetchedUsername);
+        const forId = await axios.get(`http://localhost:3000/users/${fetchedUsername}`);
+        setId(forId.data.id);
       } catch (error) {
         console.error('Error fetching profile data:', error);
       }
@@ -28,5 +31,5 @@ export function useProfile() {
 
     fetchData();
   }, []);
-  return username;
+  return {username, id};
 }

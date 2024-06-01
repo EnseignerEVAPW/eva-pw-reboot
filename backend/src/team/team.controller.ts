@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req  } from '@nestjs/common';
 import { TeamService } from './team.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { AuthGuard } from '../auth/auth.guard';
+import { SimpleTeam } from './team.interface';
 
 @Controller('team')
 export class TeamController {
@@ -46,6 +48,11 @@ export class TeamController {
     @Param('username') username: string
   ) {
     return this.teamService.inviteContestant(+teamId, username);
+  }
+
+  @Get(':getTeamsBelong/:id')
+  getTeamsBelongTo(@Param('id') id: string): Promise<SimpleTeam[]>{
+    return this.teamService.getTeamsBelongTo(+id);
   }
 
 }

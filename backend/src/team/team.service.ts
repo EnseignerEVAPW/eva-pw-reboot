@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -5,6 +6,7 @@ import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { Team } from './entities/team.entity';
 import { User } from 'src/users/entities/user.entity';
+import  {SimpleTeam} from './team.interface';
 
 @Injectable()
 export class TeamService {
@@ -85,4 +87,26 @@ export class TeamService {
     }
     await this.teamRepository.remove(team);
   }
+
+  async getTeamsBelongTo(id: number): Promise<SimpleTeam[]>  {
+    const allTeams = await this.findAll();
+    const teamsIBelong = allTeams
+    .filter(team => team.coach.id === id || team.contestants.some(cont => cont.id ===id))
+    .map(team => ({
+      id: team.id,
+      name: team.nombre,
+      members: [
+        {
+          username: team.coach.username,
+          isCoach: true,
+        },
+        ...team.contestants.map(cont => ({
+          username: cont.username,
+          isCoach: false,
+        })),
+      ],
+    }));
+    return teamsIBelong;
+  }
 }
+

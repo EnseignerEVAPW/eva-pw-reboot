@@ -1,22 +1,24 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {useProfile} from '../services/useProfile';
 
 function InviteSearch() {
+  const {username, id} = useProfile();
   const [name, setName] = useState('');
   const [search, setSearch] = useState('');
   const [students, setStudents] = useState([]);
   const [studentsFound, setStudentsFound] = useState([]);
   const [team, setTeam] = useState([]);
   const [teamId, setTeamId] = useState('');
+
   const saveName = async (e) => {
     e.preventDefault();
-    
-    
+    console.log('hi', username, id);
     try {
       // Realizar la llamada POST al backend para crear el equipo
       const response = await axios.post('http://localhost:3000/team', {
         nombre: name,
-        coachId: 1 // ID del entrenador, cambiar por el ID del usuario logueado
+        coachId: id // ID del entrenador, cambiar por el ID del usuario logueado
       });
   
       if (response.status === 201) {
@@ -52,7 +54,7 @@ function InviteSearch() {
     // BACKEND invite search to team
     try {
       // cambiar el team 6 por el team id
-      const response = await axios.post(`http://localhost:3000/team/6/invite/${search}`);
+      const response = await axios.post(`http://localhost:3000/team/${teamId}/invite/${search}`);
       console.log("respuesta  "+response);
     } catch (error) {
       console.log(error);
