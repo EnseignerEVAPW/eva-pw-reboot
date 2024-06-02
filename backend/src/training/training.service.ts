@@ -63,18 +63,13 @@ export class TrainingService {
     await this.trainingRepository.remove(training);
   }
 
-  // async addChat(id: number, chat: object): Promise<Training> {
-  //   const training = await this.trainingRepository.findOne({ where: { id } });
-  //   if (!training) {
-  //     throw new NotFoundException(`Training with ID ${id} not found`);
-  //   }
-  
-  //   if (!training.chat) {
-  //     training.chat = []; // Si el arreglo de chat aún no existe, inicialízalo como un arreglo vacío
-  //   }
-  //   training.chat.push(chat); // Agregar el nuevo objeto de chat al arreglo existente
-  
-  //   return this.trainingRepository.save(training);
-  // }
+  async addChat(id: string, chat: object[]): Promise<Training> {
+    const training = await this.trainingRepository.findOne({ where: { id } });
+    if (!training) {
+      throw new NotFoundException(`Training with ID ${id} not found`);
+    }
+    training.chat = chat;
+    return this.trainingRepository.save(training);
+  }
   
 }

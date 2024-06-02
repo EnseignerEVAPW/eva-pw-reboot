@@ -40,10 +40,10 @@ export class TrainingController {
     return this.trainingService.remove(id);
   }
 
-  // @Patch(':id/chat') // Nuevo endpoint para agregar un chat a un entrenamiento existente
-  // async addChat(@Param('id') id: string, @Body() chat: object) {
-  //   return this.trainingService.addChat(+id, chat);
-  // }
+  @Patch(':id/chat') // Nuevo endpoint para agregar un chat a un entrenamiento existente
+  async addChat(@Param('id') id: string, @Body() chat: object[]) {
+    return this.trainingService.addChat(id, chat);
+  }
 
 
 }
