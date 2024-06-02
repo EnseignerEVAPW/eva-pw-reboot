@@ -5,6 +5,9 @@ export class CreateTrainingDto {
   @IsNotEmpty()
   teamId: number;
 
+  @IsNotEmpty() // Asegura que se proporcione un ID al crear una nueva instancia de Training
+  id: number;
+
   // Otros campos opcionales o necesarios para crear un Training
   // Por ejemplo:
 

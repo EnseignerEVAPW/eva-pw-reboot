@@ -17,7 +17,7 @@ export class TrainingService {
   ) {}
 
   async create(createTrainingDto: CreateTrainingDto): Promise<Training> {
-    const { teamId } = createTrainingDto;
+    const { teamId,id } = createTrainingDto;
     const team = await this.teamRepository.findOne({ where: { id: teamId } });
     if (!team) {
       throw new NotFoundException(`Team with ID ${teamId} not found`);
@@ -27,6 +27,7 @@ export class TrainingService {
     training.team = team;
     training.creationDate = new Date();
     training.chat = createTrainingDto.chat;
+    training.id = id;
 
     return this.trainingRepository.save(training);
   }

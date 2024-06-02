@@ -15,7 +15,7 @@ export class TrainingController {
 
   @Post()
   async create(@Body() createTrainingDto: CreateTrainingDto) {
-    console.log("chat  ", createTrainingDto.chat);
+    console.log("chat  ", createTrainingDto);
     const training = await this.trainingService.create(createTrainingDto);
     return training;
   }

@@ -1,16 +1,17 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne } from "typeorm";
+import { Column, Entity, PrimaryColumn, OneToMany, ManyToOne } from "typeorm";
 import { Team } from "src/team/entities/team.entity";
 import { Board } from "src/board/entities/board.entity";
+
 @Entity()
 export class Training {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn() // Por ejemplo, un valor predeterminado de 1
   id: number;
 
   @Column({ nullable: true, default: () => 'CURRENT_TIMESTAMP' }) 
   creationDate: Date;
 
   // Aquí puedes definir otras propiedades de tu entidad Training
-  @Column('json', {nullable: true})
+  @Column('json', { nullable: true })
   chat: object[];
 
   @ManyToOne(() => Team, team => team.trainings)
