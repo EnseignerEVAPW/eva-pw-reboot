@@ -15,6 +15,7 @@ function TrainingPage() {
     const [showModal, setShowModal] = useState(isCreator);
 
     useEffect(() => {
+        console.log("invitacion    "+codeInvite);
         const hasReloaded = localStorage.getItem('hasReloaded');
         if (!hasReloaded) {
             localStorage.setItem('hasReloaded', 'true');
