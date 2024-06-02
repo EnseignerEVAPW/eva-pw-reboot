@@ -5,7 +5,7 @@ import { Board } from "src/board/entities/board.entity";
 @Entity()
 export class Training {
   @PrimaryColumn() // Por ejemplo, un valor predeterminado de 1
-  id: number;
+  id: string;
 
   @Column({ nullable: true, default: () => 'CURRENT_TIMESTAMP' }) 
   creationDate: Date;

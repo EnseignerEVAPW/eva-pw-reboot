@@ -36,7 +36,7 @@ export class TrainingService {
     return this.trainingRepository.find({ relations: ['team'] });
   }
 
-  async findOne(id: number): Promise<Training> {
+  async findOne(id: string): Promise<Training> {
     const training = await this.trainingRepository.findOne({ where: { id }, relations: ['team'] });
     if (!training) {
       throw new NotFoundException(`Training with ID ${id} not found`);
@@ -44,7 +44,7 @@ export class TrainingService {
     return training;
   }
 
-  async update(id: number, updateTrainingDto: UpdateTrainingDto): Promise<Training> {
+  async update(id: string, updateTrainingDto: UpdateTrainingDto): Promise<Training> {
     const training = await this.trainingRepository.preload({
       id,
       ...updateTrainingDto,
@@ -55,11 +55,26 @@ export class TrainingService {
     return this.trainingRepository.save(training);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const training = await this.trainingRepository.findOne({ where: { id } });
     if (!training) {
       throw new NotFoundException(`Training with ID ${id} not found`);
     }
     await this.trainingRepository.remove(training);
   }
+
+  // async addChat(id: number, chat: object): Promise<Training> {
+  //   const training = await this.trainingRepository.findOne({ where: { id } });
+  //   if (!training) {
+  //     throw new NotFoundException(`Training with ID ${id} not found`);
+  //   }
+  
+  //   if (!training.chat) {
+  //     training.chat = []; // Si el arreglo de chat aún no existe, inicialízalo como un arreglo vacío
+  //   }
+  //   training.chat.push(chat); // Agregar el nuevo objeto de chat al arreglo existente
+  
+  //   return this.trainingRepository.save(training);
+  // }
+  
 }

@@ -27,17 +27,23 @@ export class TrainingController {
 
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    return this.trainingService.findOne(+id);
+    return this.trainingService.findOne(id);
   }
 
   @Patch(':id')
   async update(@Param('id') id: string, @Body() updateTrainingDto: UpdateTrainingDto) {
-    return this.trainingService.update(+id, updateTrainingDto);
+    return this.trainingService.update(id, updateTrainingDto);
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return this.trainingService.remove(+id);
+    return this.trainingService.remove(id);
   }
+
+  // @Patch(':id/chat') // Nuevo endpoint para agregar un chat a un entrenamiento existente
+  // async addChat(@Param('id') id: string, @Body() chat: object) {
+  //   return this.trainingService.addChat(+id, chat);
+  // }
+
 
 }
