@@ -10,6 +10,8 @@ export class Training {
   creationDate: Date;
 
   // Aquí puedes definir otras propiedades de tu entidad Training
+  @Column('json', {nullable: true})
+  chat: object[];
 
   @ManyToOne(() => Team, team => team.trainings)
   team: Team;

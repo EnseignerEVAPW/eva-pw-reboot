@@ -7,8 +7,15 @@ import { UpdateTrainingDto } from './dto/update-training.dto';
 export class TrainingController {
   constructor(private readonly trainingService: TrainingService) {}
 
+  
+  @Get('dummy')
+  getEjemplo(): string {
+    return '¡Hola desde el endpoint ejemplo!';
+  }
+
   @Post()
   async create(@Body() createTrainingDto: CreateTrainingDto) {
+    console.log("chat  ", createTrainingDto.chat);
     const training = await this.trainingService.create(createTrainingDto);
     return training;
   }
@@ -33,8 +40,4 @@ export class TrainingController {
     return this.trainingService.remove(+id);
   }
 
-  @Get('dummy')
-  getEjemplo(): string {
-    return '¡Hola desde el endpoint ejemplo!';
-  }
 }

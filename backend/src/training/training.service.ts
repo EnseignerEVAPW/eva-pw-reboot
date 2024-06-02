@@ -26,6 +26,7 @@ export class TrainingService {
     const training = new Training();
     training.team = team;
     training.creationDate = new Date();
+    training.chat = createTrainingDto.chat;
 
     return this.trainingRepository.save(training);
   }
