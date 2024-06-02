@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './common/UIComponents';
+import axios from 'axios';
 
 function VideoConferenceComp({ codeRoom }) {
   const [chatHistory, setChatHistory] = useState([]);
@@ -20,6 +21,7 @@ function VideoConferenceComp({ codeRoom }) {
   };
 
   useEffect(() => {
+
     const scriptId = 'jitsi';
     let script = document.getElementById(scriptId);
 
@@ -102,15 +104,28 @@ function VideoConferenceComp({ codeRoom }) {
     };
   }, [codeRoom]);
 
-  const handlePrintMessages = () => {
+  const handlePrintMessages = async() => {
     const messagesWithNames = chatHistory.map(msg => ({
       name: participants[msg.id] || (msg.id === localUserId ? localUserName : 'Unknown'),
       content: msg.content
     }));
     console.log(messagesWithNames);
-
-    // Agrgar logica para guardar los mensajes
- 
+    try{
+      const token = sessionStorage.getItem('token');
+      if(!token){
+        return;
+      }
+      const response = await axios.patch(`http://localhost:3000/training/${codeRoom}/chat`, messagesWithNames, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('Chat actualizado:', response.data);
+    }catch(error){
+      console.log("error al actualizar el chat");
+    }
+    
   };
 
   return (

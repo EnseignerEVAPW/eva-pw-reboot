@@ -17,7 +17,7 @@ export class TrainingService {
   ) {}
 
   async create(createTrainingDto: CreateTrainingDto): Promise<Training> {
-    const { teamId } = createTrainingDto;
+    const { teamId,id } = createTrainingDto;
     const team = await this.teamRepository.findOne({ where: { id: teamId } });
     if (!team) {
       throw new NotFoundException(`Team with ID ${teamId} not found`);
@@ -26,6 +26,8 @@ export class TrainingService {
     const training = new Training();
     training.team = team;
     training.creationDate = new Date();
+    training.chat = createTrainingDto.chat;
+    training.id = id;
 
     return this.trainingRepository.save(training);
   }
@@ -34,7 +36,7 @@ export class TrainingService {
     return this.trainingRepository.find({ relations: ['team'] });
   }
 
-  async findOne(id: number): Promise<Training> {
+  async findOne(id: string): Promise<Training> {
     const training = await this.trainingRepository.findOne({ where: { id }, relations: ['team'] });
     if (!training) {
       throw new NotFoundException(`Training with ID ${id} not found`);
@@ -42,7 +44,7 @@ export class TrainingService {
     return training;
   }
 
-  async update(id: number, updateTrainingDto: UpdateTrainingDto): Promise<Training> {
+  async update(id: string, updateTrainingDto: UpdateTrainingDto): Promise<Training> {
     const training = await this.trainingRepository.preload({
       id,
       ...updateTrainingDto,
@@ -53,11 +55,21 @@ export class TrainingService {
     return this.trainingRepository.save(training);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const training = await this.trainingRepository.findOne({ where: { id } });
     if (!training) {
       throw new NotFoundException(`Training with ID ${id} not found`);
     }
     await this.trainingRepository.remove(training);
   }
+
+  async addChat(id: string, chat: object[]): Promise<Training> {
+    const training = await this.trainingRepository.findOne({ where: { id } });
+    if (!training) {
+      throw new NotFoundException(`Training with ID ${id} not found`);
+    }
+    training.chat = chat;
+    return this.trainingRepository.save(training);
+  }
+  
 }

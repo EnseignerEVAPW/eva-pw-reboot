@@ -15,6 +15,7 @@ const LoginForm = () => {
         password: password,
       });
       const token = response.data.token;
+      console.log("tokenito   "+token);
       const redirect = async () =>{
         sessionStorage.setItem('token', token);
         await navigate('/profile');

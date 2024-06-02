@@ -59,23 +59,27 @@ function GeneradorCodigo() {
       result += String.fromCharCode(character);
     }
     setCodeInvite(result);
+    return result;
   }
 
   const handleCreateRoom = async () => {
+    
     if (!selectedTeam) {
       alert('Por favor, selecciona un equipo para continuar.');
       return;
     }
     localStorage.removeItem('hasReloaded');
-    generateCode();
-
+    const codigo = generateCode();
+    console.log("probando todo este mambfo  "+codigo);
     try {
       const token = sessionStorage.getItem('token');
       if (!token) {
         console.error('No token found in sessionStorage');
         return;
       }
+
       const response = await axios.post('http://localhost:3000/training', {
+        id: codigo,
         teamId: selectedTeam,
       }, {
         headers: {
@@ -94,6 +98,7 @@ function GeneradorCodigo() {
   const handleJoin = () => {
     localStorage.removeItem('hasReloaded');
     localStorage.removeItem('isCreator');
+    
     navigate(`/entrenar?codeInvite=${codeInvite}`);
   };
 
