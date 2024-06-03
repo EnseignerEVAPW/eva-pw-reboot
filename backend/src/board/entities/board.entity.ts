@@ -6,8 +6,8 @@ export class Board {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'blob', nullable: false })
-  image: Buffer; // Almacenará los datos binarios de la imagen en la base de datos
+  @Column({ nullable: false })
+  imagePath: string; // Almacenará el path de la imagen en lugar de los datos binarios
 
   @Column({ nullable: true })
   time: string;
