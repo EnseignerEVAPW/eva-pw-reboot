@@ -24,8 +24,8 @@ const Timeline = () => {
     const fetchImages = async () => {
       const imagePromises = meetings.map(async (meeting) => {
         try {
-          
-          const response = await axios.get(`http://localhost:3000/boards/images/88Esk8D`, {
+          const codigo = meeting.id;
+          const response = await axios.get(`http://localhost:3000/boards/images/${codigo}`, {
             responseType: 'blob',
           });
           const imageObjectURL = URL.createObjectURL(response.data);
