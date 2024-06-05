@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { TrainingService } from './training.service';
 import { CreateTrainingDto } from './dto/create-training.dto';
@@ -45,5 +46,8 @@ export class TrainingController {
     return this.trainingService.addChat(id, chat);
   }
 
-
+  @Get('teamsTraining/:id')
+  async getTrainingsOf(@Param('id') teamId: string){
+    return this.trainingService.getTrainingsOf(teamId);
+  }
 }

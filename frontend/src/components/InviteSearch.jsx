@@ -50,6 +50,10 @@ function InviteSearch() {
 
   const inviteTeam = async (e) => {
     e.preventDefault();
+    const verify = students.map(stu => stu.username).includes(search);
+    if(search.trim() === '' || !verify){
+      return;
+    }
     team.push(search);
     // BACKEND invite search to team
     try {
@@ -65,9 +69,10 @@ function InviteSearch() {
 
   const finishProcess = (e) => {
     e.preventDefault();
-    console.log(search);
-    //BACKEND
-    window.location.reload();
+    const verify = team.filter(est => students.map(stu => stu.username).includes(est));
+    if(verify.length >= 2){
+      window.location.reload();
+    }
   }
 
   useEffect(() => {
@@ -135,7 +140,7 @@ function InviteSearch() {
           <div className="text-2xl text-indigo-400 font-bold text-center mt-2">Team</div>
           {team.length === 0 && <div className="text-indigo-400 text-center">No hay estudiantes en el team</div>}
           {team.length > 0 &&
-            <div className="container flex px-10 my-5">
+            <div className="container flex px-10 my-5 flex-wrap">
               {team.map((student) => (
                 <div key={student} className="flex flex-row justify-between border-2 border-indigo-400 rounded-lg px-5 m-2">
                   <button className="text-indigo-300">{student}</button>

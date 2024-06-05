@@ -3,7 +3,7 @@ import { Type } from 'class-transformer';
 
 export class CreateTrainingDto {
   @IsNotEmpty()
-  teamId: number;
+  teamId: string;
 
   @IsNotEmpty() // Asegura que se proporcione un ID al crear una nueva instancia de Training
   id: string;
