@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -18,7 +19,7 @@ export class TrainingService {
 
   async create(createTrainingDto: CreateTrainingDto): Promise<Training> {
     const { teamId,id } = createTrainingDto;
-    const team = await this.teamRepository.findOne({ where: { id: teamId } });
+    const team = await this.teamRepository.findOne({ where: { id: parseInt(teamId) } });
     if (!team) {
       throw new NotFoundException(`Team with ID ${teamId} not found`);
     }
@@ -72,4 +73,11 @@ export class TrainingService {
     return this.trainingRepository.save(training);
   }
   
+  async getTrainingsOf(teamId: string): Promise<Training[]> {
+    const results = await this.trainingRepository.find({ where: { teamId }})
+    if (results.length === 0) {
+      throw new NotFoundException(`Training with ID ${teamId} not found`);
+    }
+    return results;
+  }
 }

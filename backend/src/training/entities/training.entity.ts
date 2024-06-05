@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn, OneToMany, ManyToOne } from "typeorm";
+/* eslint-disable prettier/prettier */
+import { Column, Entity, PrimaryColumn, OneToMany, ManyToOne, JoinColumn } from "typeorm";
 import { Team } from "src/team/entities/team.entity";
 import { Board } from "src/board/entities/board.entity";
 
@@ -15,7 +16,11 @@ export class Training {
   chat: object[];
 
   @ManyToOne(() => Team, team => team.trainings)
+  @JoinColumn({ name: 'teamId'})
   team: Team;
+
+  @Column()
+  teamId: string;
 
   @OneToMany(() => Board, board => board.training)
   boards: Board[];

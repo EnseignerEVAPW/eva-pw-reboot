@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import InviteSearch from '../components/InviteSearch';
 import {useProfile} from '../services/useProfile';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 interface UserEach{
   username: string,
@@ -18,6 +19,7 @@ const header = 'text-base bg-[#141d30] py-2 text-center rounded-lg font-medium t
 const Teams = () => {
   const [allTeams, setAllTeams] = useState<Team[]>([]);
   const { id } = useProfile();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +38,9 @@ const Teams = () => {
     fetchData();
   }, [id])
 
+  const viewReport = (team) => {
+    navigate('/timeline', { state: { team } });
+  }
   return (
     <div className="grid grid-cols-3 gap-4 p-10 flex-wrap">
       <div className="col-span-2">
@@ -63,7 +68,7 @@ const Teams = () => {
               ))}
             </div>
             <div className='flex items-center justify-center col-span-1 text-base bg-indigo-200 text-center rounded-lg'>
-              <button className='items-center h-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700 text-center px-4 rounded text-white'>Ver team</button>
+              <button className='items-center h-auto bg-violet-500 hover:bg-violet-600 active:bg-violet-700 text-center px-4 rounded text-white' onClick={()=>viewReport(team)}>Ver team</button>
             </div>
           </div>
         ))}
