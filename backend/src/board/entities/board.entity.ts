@@ -12,6 +12,6 @@ export class Board {
   @Column({ nullable: true })
   time: string;
 
-  @ManyToOne(() => Training, training => training.boards)
+  @ManyToOne(() => Training, training => training.boards, { cascade: ['insert', 'update'] })
   training: Training;
 }

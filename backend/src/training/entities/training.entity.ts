@@ -22,6 +22,6 @@ export class Training {
   @Column()
   teamId: string;
 
-  @OneToMany(() => Board, board => board.training)
+  @OneToMany(() => Board, board => board.training, { cascade: ['insert', 'update'] })
   boards: Board[];
 }

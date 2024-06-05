@@ -44,4 +44,22 @@ export class BoardController {
      }
   }
 
+  @Get('/images') // Agrega el parámetro trainingId en la ruta
+  async obtenerImagen(@Res() res: Response) {
+
+    // const rutaImagen = 'uploads/code-4b10code.png'; // Cambia la ruta de la imagen
+    const rutaImagen = join(__dirname, '..', '..','..', 'uploads', 'code-4b10code.png'); // Cambia la ruta de la imagen
+    console.log(rutaImagen + " vs " + rutaImagen);
+    res.sendFile(rutaImagen);
+  }
+
+  @Get('images/:trainingId') // Agrega el parámetro trainingId en la ruta
+  async getImagesByTrainingId(@Param('trainingId') trainingId: string, @Res() res: Response): Promise<any> {
+    let rutaImagen = await this.boardService.getImagesByTrainingId(trainingId); // Cambia la ruta de la imagen
+    rutaImagen = join(__dirname, '..', '..','..', 'uploads', rutaImagen); // Cambia la ruta de la imagen
+    res.sendFile(rutaImagen);
+  }
+
+
+
 }

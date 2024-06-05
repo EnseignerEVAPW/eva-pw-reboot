@@ -22,15 +22,27 @@ export class BoardService {
 
   async create(createBoardDto: CreateBoardDto): Promise<Board> {
     const { trainingId } = createBoardDto;
-    const training = await this.trainingRepository.findOne({ where: { id: trainingId } });
+    const board = this.boardRepository.create(createBoardDto);
+    const training = await this.trainingRepository.findOne({where: {id: trainingId}});
     if (!training) {
       throw new NotFoundException(`Training with ID ${trainingId} not found`);
     }
-
-    const board = new Board(); // Crea un nuevo tablero
-    board.imagePath = createBoardDto.imagePath;
     board.training = training; // Asigna el training al tablero
+    return this.boardRepository.save(board);
+}
 
-    return this.boardRepository.save(board); // Guarda el tablero en la base de datos
+
+  async getImagesByTrainingId(id: string): Promise<string> {
+    const training = await this.trainingRepository.findOne({ 
+        where: { id },
+        relations: ['boards'] // Cargar la relación 'boards'
+    });
+    if (!training) {
+        throw new NotFoundException(`Training with ID ${id} not found`);
+    }
+    const primero = training.boards;
+    const rutasImagenes = primero.map(board => board.imagePath);
+    return rutasImagenes[0];
   }
+
 }
