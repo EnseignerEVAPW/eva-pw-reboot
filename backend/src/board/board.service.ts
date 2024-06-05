@@ -19,4 +19,18 @@ export class BoardService {
     const entrenamientos = await this.trainingRepository.find();
     return entrenamientos;
   }
+
+  async create(createBoardDto: CreateBoardDto): Promise<Board> {
+    const { trainingId } = createBoardDto;
+    const training = await this.trainingRepository.findOne({ where: { id: trainingId } });
+    if (!training) {
+      throw new NotFoundException(`Training with ID ${trainingId} not found`);
+    }
+
+    const board = new Board(); // Crea un nuevo tablero
+    board.imagePath = createBoardDto.imagePath;
+    board.training = training; // Asigna el training al tablero
+
+    return this.boardRepository.save(board); // Guarda el tablero en la base de datos
+  }
 }
