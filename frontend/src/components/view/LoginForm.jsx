@@ -5,6 +5,7 @@ import axios from 'axios';
 const LoginForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isRedirected, setIsRedirected] = useState(false);
   const navigate = useNavigate(); 
 
   const handleSubmit = async (event) => {
@@ -16,11 +17,12 @@ const LoginForm = () => {
       });
       const token = response.data.token;
       console.log("tokenito   "+token);
+      
       const redirect = async () =>{
         sessionStorage.setItem('token', token);
         await navigate('/profile');
       }
-      redirect();
+      await redirect();
     } catch (error) {
       alert('Error al hacer login');
       console.error('El error:', error);
