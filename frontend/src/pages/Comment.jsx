@@ -2,9 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import { FaTimes, FaUserCircle } from 'react-icons/fa';
 
-const Comment = ({ comment, onDelete, onDrag }) => {
+const Comment = ({ comment, onDelete, onDrag, onUpdateText }) => {
   const [text, setText] = useState(comment.text || '');
   const textareaRef = useRef(null);
+
+  useEffect(() => {
+    setText(comment.text);
+  }, [comment.text]);
 
   const handleDelete = () => {
     onDelete(comment.id);
@@ -19,6 +23,7 @@ const Comment = ({ comment, onDelete, onDrag }) => {
 
   const handleChange = (e) => {
     setText(e.target.value);
+    onUpdateText(comment.id, e.target.value);
     resizeTextarea();
   };
 
@@ -41,10 +46,7 @@ const Comment = ({ comment, onDelete, onDrag }) => {
             <FaUserCircle className="text-2xl mr-2" />
             <span className="text-sm font-semibold">Username</span>
           </div>
-          <button
-            onClick={handleDelete}
-            className="text-red-500 hover:text-red-700"
-          >
+          <button onClick={handleDelete} className="text-red-500 hover:text-red-700">
             <FaTimes />
           </button>
         </div>
