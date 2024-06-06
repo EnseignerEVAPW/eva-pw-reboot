@@ -1,8 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Compete from './Compete';
 
 const MainPage = () => {
+  // Definimos los comentarios iniciales directamente en el código
+  const initialComments = [{"id":1717693652437,"user":"Usuario1","text":"esto deveria cambiar ","xPercentage":37.774524158125914,"yPercentage":14.727540500736378,"commentXPercentage":51.87059171074506,"commentYPercentage":57.59095271535508},{"id":1717693654781,"user":"Usuario1","text":"deberia es con \"b\"","xPercentage":37.55490483162519,"yPercentage":84.38880706921944,"commentXPercentage":24.25160159307569,"commentYPercentage":40.94882963055807},{"id":1717693664053,"user":"Usuario1","text":"este es punto central ","xPercentage":59.516837481698396,"yPercentage":39.175257731958766,"commentXPercentage":81.50679980641738,"commentYPercentage":22.454797825257312}];
+
   const competeRef = useRef();
+
+  useEffect(() => {
+    if (initialComments && competeRef.current) {
+      competeRef.current.loadComments(initialComments);
+    }
+  }, []);
 
   const handleSaveComments = () => {
     if (competeRef.current) {

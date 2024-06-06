@@ -7,7 +7,8 @@ const Compete = forwardRef((props, ref) => {
   const [comments, setComments] = useState([]);
 
   useImperativeHandle(ref, () => ({
-    serializeComments
+    serializeComments,
+    loadComments
   }));
 
   useEffect(() => {
@@ -84,6 +85,17 @@ const Compete = forwardRef((props, ref) => {
       commentXPercentage: comment.commentXPercentage,
       commentYPercentage: comment.commentYPercentage
     })));
+  };
+
+  const loadComments = (loadedComments) => {
+    const deserializedComments = loadedComments.map(comment => ({
+      ...comment,
+      x: (comment.xPercentage * window.innerWidth) / 100,
+      y: (comment.yPercentage * window.innerHeight) / 100,
+      commentX: (comment.commentXPercentage * window.innerWidth) / 100,
+      commentY: (comment.commentYPercentage * window.innerHeight) / 100,
+    }));
+    setComments(deserializedComments);
   };
 
   return (
