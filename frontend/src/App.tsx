@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import Teams from './pages/Teams';
 import Logout from './components/Logout';
+import MainPage from './pages/MainPage'
 
 import { isUserLogged } from './utils/tokenUtils';
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/timeline" element={isLogged?<Timeline />:<Login/>} />
         <Route path="/teams" element={isLogged?<Teams />:<Login/>} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/Main" element={<MainPage />} />
       </Routes>
       <Footer />
     </Router>

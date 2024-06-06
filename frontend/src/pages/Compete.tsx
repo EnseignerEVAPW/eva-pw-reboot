@@ -8,7 +8,7 @@ const Compete = () => {
 
   const handleScreenClick = (e) => {
     // Verificar si el clic ocurrió en el fondo, no en un comentario existente
-    if (e.target.classList.contains('bg-gray-800')) {
+    if (e.target.classList.contains('clickable-area')) {
       const rect = e.currentTarget.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -35,7 +35,7 @@ const Compete = () => {
   };
 
   return (
-    <div className="relative h-screen bg-gray-800" onClick={handleScreenClick}>
+    <div className="absolute inset-0 clickable-area" onClick={handleScreenClick}>
       {comments.map((comment) => (
         <React.Fragment key={comment.id}>
           <Circle x={comment.x} y={comment.y} />
