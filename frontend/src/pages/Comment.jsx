@@ -40,23 +40,23 @@ const Comment = ({ comment, onDelete, onDrag, onUpdateText }) => {
 
   return (
     <Draggable defaultPosition={{ x: comment.commentX - 72 / 2, y: comment.commentY - 50 / 2 }} onDrag={handleDrag}>
-      <div className="absolute bg-purple-800 text-white p-4 rounded-lg shadow-lg cursor-move w-72">
+      <div className="absolute bg-[#A8A5FF] text-black p-4 rounded-lg shadow-lg cursor-move w-72">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center">
             <FaUserCircle className="text-2xl mr-2" />
             <span className="text-sm font-semibold">Username</span>
           </div>
-          <button onClick={handleDelete} className="text-red-500 hover:text-red-700">
+          <button onClick={handleDelete} className="text-[#8986E8] hover:text-red-700">
             <FaTimes />
           </button>
         </div>
         <textarea
           ref={textareaRef}
-          className="w-full p-2 bg-purple-700 text-white border-none rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 bg-[#8986E8] text-black border-none rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-[#2C2C2C]"
           value={text}
           onChange={handleChange}
           placeholder="Comentario"
-          style={{ minHeight: '50px', overflowY: 'auto' }}
+          style={{ minHeight: '50px', overflowY: 'auto', color: 'black' }}
         />
       </div>
     </Draggable>

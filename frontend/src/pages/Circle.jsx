@@ -7,10 +7,10 @@
         position: 'absolute',
         left: x - 5,
         top: y - 5,
-        width: 10,
-        height: 10,
+        width: 0,
+        height: 0,
         borderRadius: '50%',
-        backgroundColor: 'green',
+        backgroundColor: '#A8A5FF',
       }}
     />
   );
