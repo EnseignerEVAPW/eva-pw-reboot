@@ -18,7 +18,7 @@ export class TrainingService {
   ) {}
 
   async create(createTrainingDto: CreateTrainingDto): Promise<Training> {
-    const { teamId,id } = createTrainingDto;
+    const { teamId, id, chat, comments } = createTrainingDto;
     const team = await this.teamRepository.findOne({ where: { id: parseInt(teamId) } });
     if (!team) {
       throw new NotFoundException(`Team with ID ${teamId} not found`);
@@ -27,7 +27,8 @@ export class TrainingService {
     const training = new Training();
     training.team = team;
     training.creationDate = new Date();
-    training.chat = createTrainingDto.chat;
+    training.chat = chat;
+    training.comments = comments;
     training.id = id;
 
     return this.trainingRepository.save(training);
@@ -72,11 +73,20 @@ export class TrainingService {
     training.chat = chat;
     return this.trainingRepository.save(training);
   }
-  
+
+  async addComments(id: string, comments: object[]): Promise<Training> {
+    const training = await this.trainingRepository.findOne({ where: { id } });
+    if (!training) {
+      throw new NotFoundException(`Training with ID ${id} not found`);
+    }
+    training.comments = comments;
+    return this.trainingRepository.save(training);
+  }
+
   async getTrainingsOf(teamId: string): Promise<Training[]> {
-    const results = await this.trainingRepository.find({ where: { teamId }})
+    const results = await this.trainingRepository.find({ where: { teamId } });
     if (results.length === 0) {
-      throw new NotFoundException(`Training with ID ${teamId} not found`);
+      throw new NotFoundException(`Trainings for Team with ID ${teamId} not found`);
     }
     return results;
   }
