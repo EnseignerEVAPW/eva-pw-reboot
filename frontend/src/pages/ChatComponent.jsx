@@ -2,7 +2,7 @@ import React from 'react';
 
 const ChatComponent = ({ messages }) => {
   return (
-    <div className="p-4 bg-gray-800 min-h-screen text-white flex flex-col space-y-4">
+    <div className="p-4 bg-gray-800 h-full text-white flex flex-col space-y-4 overflow-y-auto">
       {messages.map((msg, index) => (
         <div
           key={index}

@@ -3,7 +3,7 @@ import Header from './components/layout/Header'
 import Footer from './components/layout/Footer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home'
-import Compete from './pages/Compete'
+// import Compete from './pages/Compete'
 import Train from './pages/Train'
 import Rules from './pages/Rules'
 import Profile from './pages/Profile'
@@ -24,7 +24,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="/compete" element={<Compete />} />
+        {/* <Route path="/compete" element={<Compete />} /> */}
         <Route path="/entrenar" element={isLogged?<Train />:<Login/>} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/profile" element={isLogged?<Profile />:<Login/>} />

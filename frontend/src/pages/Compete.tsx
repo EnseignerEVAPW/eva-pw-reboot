@@ -26,7 +26,7 @@ const Compete = forwardRef((props, ref) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleScreenClick = (e) => {
+  const handlesScreenClick = (e) => {
     if (e.target.classList.contains('clickable-area')) {
       const rect = e.currentTarget.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -99,7 +99,7 @@ const Compete = forwardRef((props, ref) => {
   };
 
   return (
-    <div className="absolute inset-0 clickable-area" onClick={handleScreenClick}>
+    <div className="absolute inset-0 clickable-area" onClick={handleScreenClick} style={{ pointerEvents: 'none' }}>
       {comments.map((comment) => (
         <React.Fragment key={comment.id}>
           <Circle x={comment.x} y={comment.y} />
