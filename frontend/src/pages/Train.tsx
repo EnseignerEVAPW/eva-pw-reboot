@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import VideoConferenceComp from '../components/VideoConference';
 import Board from '../components/view/Board';
+import toast, { Toaster } from 'react-hot-toast';
 
 function TrainingPage() {
     const location = useLocation();
@@ -20,15 +21,36 @@ function TrainingPage() {
             localStorage.setItem('hasReloaded', 'true');
             window.location.reload();
         }
-    }, []);
+    }, [codeInvite]);
 
     const handleFinish = () => {
         localStorage.removeItem('hasReloaded');
-        navigate('/');
+    
+        const finishPromise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 1000);
+        });
+    
+        toast.promise(
+            finishPromise,
+            {
+                loading: 'Terminando entrenamiento...',
+                success: <b>Entrenamiento terminado</b>,
+                error: <b>Error al terminar el entrenamiento</b>,
+            }
+        ).then(() => {
+            setTimeout(() => {
+                navigate('/');
+            }, 800);
+        });
     };
 
     const handleCopyCode = () => {
         navigator.clipboard.writeText(codeInvite);
+        toast('Código copiado', {
+            icon: '📋',
+        });
     };
 
     const handleCloseModal = () => {
@@ -37,6 +59,7 @@ function TrainingPage() {
 
     return (
         <div className="container-fluid h-screen p-4 flex-grow">
+            <Toaster />
             <div className="flex flex-col h-full flex-grow">
                 <div className="flex gap-4 flex-row flex-grow">
                     <div className="flex flex-col w-2/5">
@@ -69,7 +92,6 @@ function TrainingPage() {
                                 Editor de código
                             </button>
                             <button 
-                                style={{ backgroundColor: "#1F2937" }} 
                                 className="w-full px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-200 ease-in-out"
                                 onClick={() => setView('pizarra')}>
                                 Pizarra virtual
