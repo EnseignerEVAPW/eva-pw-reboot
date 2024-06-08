@@ -39,7 +39,7 @@ const Teams = () => {
   }, [id])
 
   const viewReport = (team) => {
-    navigate('/timeline', { state: { team } });
+    navigate('/main', { state: { team } });
   }
   return (
     <div className="grid grid-cols-3 gap-4 p-10 flex-wrap">

@@ -3,7 +3,7 @@ import Header from './components/layout/Header'
 import Footer from './components/layout/Footer';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home'
-import Compete from './pages/Compete'
+// import Compete from './pages/Compete'
 import Train from './pages/Train'
 import Rules from './pages/Rules'
 import Profile from './pages/Profile'
@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import Teams from './pages/Teams';
 import Logout from './components/Logout';
+import MainPage from './pages/Training'
 
 import { isUserLogged } from './utils/tokenUtils';
 
@@ -23,7 +24,7 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="/compete" element={<Compete />} />
+        {/* <Route path="/compete" element={<Compete />} /> */}
         <Route path="/entrenar" element={isLogged?<Train />:<Login/>} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/profile" element={isLogged?<Profile />:<Login/>} />
@@ -33,6 +34,7 @@ function App() {
         <Route path="/timeline" element={isLogged?<Timeline />:<Login/>} />
         <Route path="/teams" element={isLogged?<Teams />:<Login/>} />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/Main" element={<MainPage />} />
       </Routes>
       <Footer />
     </Router>

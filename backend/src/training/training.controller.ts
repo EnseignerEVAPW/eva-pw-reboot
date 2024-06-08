@@ -8,7 +8,6 @@ import { UpdateTrainingDto } from './dto/update-training.dto';
 export class TrainingController {
   constructor(private readonly trainingService: TrainingService) {}
 
-  
   @Get('dummy')
   getEjemplo(): string {
     return '¡Hola desde el endpoint ejemplo!';
@@ -41,13 +40,18 @@ export class TrainingController {
     return this.trainingService.remove(id);
   }
 
-  @Patch(':id/chat') // Nuevo endpoint para agregar un chat a un entrenamiento existente
+  @Patch(':id/chat')
   async addChat(@Param('id') id: string, @Body() chat: object[]) {
     return this.trainingService.addChat(id, chat);
   }
 
+  @Patch(':id/comments')
+  async addComments(@Param('id') id: string, @Body() comments: object[]) {
+    return this.trainingService.addComments(id, comments);
+  }
+
   @Get('teamsTraining/:id')
-  async getTrainingsOf(@Param('id') teamId: string){
+  async getTrainingsOf(@Param('id') teamId: string) {
     return this.trainingService.getTrainingsOf(teamId);
   }
 }

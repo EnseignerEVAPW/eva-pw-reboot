@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsArray, ArrayNotEmpty, ValidateNested } from 'class-validator';
+import { IsNotEmpty, IsArray, ArrayNotEmpty, ValidateNested, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateTrainingDto {
@@ -8,7 +8,7 @@ export class CreateTrainingDto {
   @IsNotEmpty() // Asegura que se proporcione un ID al crear una nueva instancia de Training
   id: string;
 
-  // Otros campos opcionales o necesarios para crear un Training
+  // Campos opcionales o necesarios para crear un Training
   // Por ejemplo:
 
   @IsArray()
@@ -17,5 +17,9 @@ export class CreateTrainingDto {
   @Type(() => Object)
   chat: object[];
 
-  // También podrías incluir otros campos como 'name', 'description', etc.
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => Object)
+  @IsOptional()
+  comments?: object[];
 }

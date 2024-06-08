@@ -1,0 +1,19 @@
+.date-list {
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .date-list:hover {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  .date-list-hidden {
+    opacity: 0.5;
+    transform: translateX(-50%);
+  }
+  .scrollable-chat {
+    flex-grow: 1;
+    overflow-y: auto;
+  }
+
+    
