@@ -103,6 +103,10 @@ function VideoConferenceComp({ codeRoom }) {
   }, [codeRoom]);
 
   const saveMessages = async (messagesWithNames) => {
+    const hasUnknownMessage = messagesWithNames.some(msg => msg.name === 'Unknown');
+    if (hasUnknownMessage) {
+      return;
+    }
     try {
       const token = sessionStorage.getItem('token');
       if (!token) {
