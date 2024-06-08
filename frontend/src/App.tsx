@@ -13,7 +13,7 @@ import Register from './pages/Register';
 import Timeline from './pages/Timeline';
 import Teams from './pages/Teams';
 import Logout from './components/Logout';
-import MainPage from './pages/MainPage'
+import MainPage from './pages/Training'
 
 import { isUserLogged } from './utils/tokenUtils';
 
