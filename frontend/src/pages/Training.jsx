@@ -8,6 +8,7 @@ import Circle from "../components/Circle";
 import Line from "../components/Line";
 import img from "./img.png";
 import "../../public/styles/Training.css";
+import { useProfile } from '../services/useProfile';
 
 const generateUniqueId = () => {
   return Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12).slice(0, 10);
@@ -16,6 +17,7 @@ const generateUniqueId = () => {
 const Training = () => {
   const location = useLocation();
   const { team } = location.state || { team: { id: null, name: 'Unknown', meetings: [] } };
+  const { username } = useProfile();
   const [comments, setComments] = useState([]);
   const [chatData, setChatData] = useState([]);
   const [trainings, setTrainings] = useState([]);
@@ -93,7 +95,7 @@ const Training = () => {
 
       const newComment = {
         id: generateUniqueId(),
-        user: "Usuario1",
+        user: username,
         x,
         y,
         xPercentage,
@@ -249,6 +251,7 @@ const Training = () => {
                   onDelete={handleDeleteComment}
                   onDrag={handleDragComment}
                   onUpdateText={handleUpdateText}
+                  username={username}
                 />
               </React.Fragment>
             ))}

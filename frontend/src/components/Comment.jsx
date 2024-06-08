@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import { FaTimes, FaUserCircle } from 'react-icons/fa';
 
-const Comment = ({ comment, onDelete, onDrag, onUpdateText }) => {
+const Comment = ({ comment, onDelete, onDrag, onUpdateText, username }) => {
   const [text, setText] = useState(comment.text || '');
   const textareaRef = useRef(null);
 
@@ -44,7 +44,7 @@ const Comment = ({ comment, onDelete, onDrag, onUpdateText }) => {
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center">
             <FaUserCircle className="text-2xl mr-2" />
-            <span className="text-sm font-semibold">Username</span>
+            <span className="text-sm font-semibold">{username}</span>
           </div>
           <button onClick={handleDelete} className="text-[#8986E8] hover:text-red-700">
             <FaTimes />
