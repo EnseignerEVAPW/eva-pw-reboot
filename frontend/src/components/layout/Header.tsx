@@ -14,7 +14,6 @@ const Header =  () => {
           </div>
           <nav className="md:flex space-x-4">
             <Link to="/" className="hover:text-blue-500">Inicio</Link>
-            <Link to="/compete" className="hover:text-blue-500">Competir</Link>
             <Link to="/modoICPC" className="hover:text-blue-500">Entrenar</Link>
             <Link to="/rules" className="hover:text-blue-500">Reglas</Link>
             <Link to="/profile" className="hover:text-blue-500">Perfil</Link>
