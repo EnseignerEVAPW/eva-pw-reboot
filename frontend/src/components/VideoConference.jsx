@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button } from './common/UIComponents';
 import axios from 'axios';
 
 function VideoConferenceComp({ codeRoom }) {
@@ -21,7 +20,6 @@ function VideoConferenceComp({ codeRoom }) {
   };
 
   useEffect(() => {
-
     const scriptId = 'jitsi';
     let script = document.getElementById(scriptId);
 
@@ -104,15 +102,10 @@ function VideoConferenceComp({ codeRoom }) {
     };
   }, [codeRoom]);
 
-  const handlePrintMessages = async() => {
-    const messagesWithNames = chatHistory.map(msg => ({
-      name: participants[msg.id] || (msg.id === localUserId ? localUserName : 'Unknown'),
-      content: msg.content
-    }));
-    console.log(messagesWithNames);
-    try{
+  const saveMessages = async(messagesWithNames) => {
+    try {
       const token = sessionStorage.getItem('token');
-      if(!token){
+      if (!token) {
         return;
       }
       const response = await axios.patch(`http://localhost:3000/training/${codeRoom}/chat`, messagesWithNames, {
@@ -122,18 +115,32 @@ function VideoConferenceComp({ codeRoom }) {
         },
       });
       console.log('Chat actualizado:', response.data);
-    }catch(error){
-      console.log("error al actualizar el chat");
+    } catch (error) {
+      console.error("Error al actualizar el chat:", error);
     }
-    
   };
+
+  useEffect(() => {
+    const messagesWithNames = chatHistory.map(msg => ({
+      name: participants[msg.id] || (msg.id === localUserId ? localUserName : 'Unknown'),
+      content: msg.content
+    }));
+    saveMessages(messagesWithNames);
+  }, [chatHistory, participants, localUserId, localUserName]);
+
+  useEffect(() => {
+    return () => {
+      const messagesWithNames = chatHistory.map(msg => ({
+        name: participants[msg.id] || (msg.id === localUserId ? localUserName : 'Unknown'),
+        content: msg.content
+      }));
+      saveMessages(messagesWithNames);
+    };
+  }, [chatHistory, participants, localUserId, localUserName]);
 
   return (
     <div className="board-container flex flex-col h-full p-4 bg-gray-800 text-white rounded-lg shadow-lg">
-      <div id="jaas-container" style={{ height: '90%' }} />
-      <div className="flex justify-between p-4">
-        <Button color="primary" onClick={handlePrintMessages}>Obtener mensajes</Button>
-      </div>
+      <div id="jaas-container" style={{ height: '100%' }} />
     </div>
   );
 }
