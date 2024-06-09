@@ -63,6 +63,14 @@ function TrainingPage() {
         setShowModal(false);
     };
 
+    const handleSubmit = (formValues) => {
+        //backend posiblemente
+        console.log('Aca estan los valores', formValues);
+    }
+
+    const closeDialog = () => {
+        setShowForm(false);
+    }
     return (
         <div className="container-fluid h-screen p-4 flex-grow">
             <Toaster />
@@ -141,7 +149,7 @@ function TrainingPage() {
                 </div>
             )}
 
-            <Feedback isOpen={showForm} onClose={() =>{}}/>
+            <Feedback isOpen={showForm} onSubmit={handleSubmit} onClose={closeDialog}/>
         </div>
     );
 }
