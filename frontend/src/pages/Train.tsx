@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import VideoConferenceComp from '../components/VideoConference';
 import Board from '../components/view/Board';
-import { Button } from '../components/common/UIComponents';
+import toast, { Toaster } from 'react-hot-toast';
 
 function TrainingPage() {
     const location = useLocation();
@@ -15,21 +15,42 @@ function TrainingPage() {
     const [showModal, setShowModal] = useState(isCreator);
 
     useEffect(() => {
-        console.log("invitacion    "+codeInvite);
+        console.log("invitacion    " + codeInvite);
         const hasReloaded = localStorage.getItem('hasReloaded');
         if (!hasReloaded) {
             localStorage.setItem('hasReloaded', 'true');
             window.location.reload();
         }
-    }, []);
+    }, [codeInvite]);
 
     const handleFinish = () => {
         localStorage.removeItem('hasReloaded');
-        navigate('/feedback');
+    
+        const finishPromise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 1000);
+        });
+    
+        toast.promise(
+            finishPromise,
+            {
+                loading: 'Terminando entrenamiento...',
+                success: <b>Entrenamiento terminado</b>,
+                error: <b>Error al terminar el entrenamiento</b>,
+            }
+        ).then(() => {
+            setTimeout(() => {
+                navigate('/');
+            }, 800);
+        });
     };
 
     const handleCopyCode = () => {
         navigator.clipboard.writeText(codeInvite);
+        toast('Código copiado', {
+            icon: '📋',
+        });
     };
 
     const handleCloseModal = () => {
@@ -38,6 +59,7 @@ function TrainingPage() {
 
     return (
         <div className="container-fluid h-screen p-4 flex-grow">
+            <Toaster />
             <div className="flex flex-col h-full flex-grow">
                 <div className="flex gap-4 flex-row flex-grow">
                     <div className="flex flex-col w-2/5">
@@ -48,13 +70,32 @@ function TrainingPage() {
                                     Código de la Sala: <span className="font-bold">{codeInvite}</span>
                                 </div>
                             )}
-                            <Button color="#1F2937" fullWidth={true} onClick={handleFinish}>Terminar</Button>
+                            <div className="flex space-x-4">
+                                <button 
+                                    className="px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-300 ease-in-out"
+                                    onClick={handleCopyCode}>
+                                    Copiar Código
+                                </button>
+                                <button 
+                                    className="px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-300 ease-in-out"
+                                    onClick={handleFinish}>
+                                    Terminar
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div className="w-3/5 h-full flex flex-grow flex-col overflow-hidden">
                         <div className="flex flex-row justify-center gap-4 mb-4">
-                            <Button color="#1F2937" fullWidth={true} onClick={() => setView('editor')}>Editor de código</Button>
-                            <Button color="#1F2937" fullWidth={true} onClick={() => setView('pizarra')}>Pizarra virtual</Button>
+                            <button 
+                                className="w-full px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-200 ease-in-out"
+                                onClick={() => setView('editor')}>
+                                Editor de código
+                            </button>
+                            <button 
+                                className="w-full px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-200 ease-in-out"
+                                onClick={() => setView('pizarra')}>
+                                Pizarra virtual
+                            </button>
                         </div>
                         <div id="pizarra" className={`${view === 'pizarra' ? 'visible' : 'hidden'}`}>
                             <Board codeRoom={codeInvite} />
