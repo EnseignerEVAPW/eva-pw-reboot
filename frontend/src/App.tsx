@@ -13,6 +13,7 @@ import Timeline from './pages/Timeline';
 import Teams from './pages/Teams';
 import Logout from './components/Logout';
 import MainPage from './pages/Training';
+import Prueba from './pages/Prueba';
 import { isUserLogged } from './utils/tokenUtils';
 import { useState, useEffect, useRef } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -64,6 +65,7 @@ function App() {
             <Route path="/teams" element={<PrivateRoute element={<Teams />} />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/Main" element={<MainPage />} />
+            <Route path='/prueba' element={<Prueba />} />
           </Routes>
         </div>
         <Footer />

@@ -1,21 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-const Feedback = () => {
+const Feedback = ({isOpen, onClose}) => {
+  const [success, setSuccess] = useState(true);
+  const [time, setTime] =useState('');
+  const [satisfaire, setSatisfaire] = useState(0);
+  const [comments, setComments] = useState('');
 
+  if(!isOpen){
+    return null;
+  }
+
+  const handleValues =() => {
+    console.log('tratando valores');
+  }
   return (
-    <>
-      <div className="p-4 max-w-2xl">
-        <form className="flex flex-col gap-4">
+    <div className='backdrop:bg-gray-50 dialog-overlay' >
+      <div className="dialog p-4 max-w-2xl">
+        <form className="flex flex-col gap-4" onSubmit={handleValues}>
           <div className="p-4 border-1 border-gray-500 rounded-lg shadow-md">
             <p className="font-bold mb-8">¿Pudiste resolver el ejercicio?</p>
             <div className="flex gap-4">
               <label className="flex items-center">
                 <input type="radio" name="resolve" value="yes" />
-                <span className="ml-1.2">Sí, lo resolví</span>
+                <span className="ml-1.2">Sí, lo resolvimos</span>
               </label>
               <label className="flex items-center">
                 <input type="radio" name="resolve" value="no" />
-                <span className="ml-1.2">No, soy la decepción de mi familia</span>
+                <span className="ml-1.2">No, no pudimos</span>
               </label>
             </div>
           </div>
@@ -46,7 +57,7 @@ const Feedback = () => {
           <button type="submit" className="p-4 border-0 rounded-lg text-white bg-sky-700 cursor-pointer transition ease-in-out delay-150 hover:bg-blue-500 ">Enviar Feedback</button>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 

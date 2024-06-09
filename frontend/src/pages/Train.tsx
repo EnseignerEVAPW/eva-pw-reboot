@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import VideoConferenceComp from '../components/VideoConference';
 import Board from '../components/view/Board';
 import toast, { Toaster } from 'react-hot-toast';
+import Feedback from '../components/Feedback';
 
 function TrainingPage() {
     const location = useLocation();
@@ -13,6 +14,7 @@ function TrainingPage() {
 
     const [view, setView] = useState('pizarra');
     const [showModal, setShowModal] = useState(isCreator);
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         console.log("invitacion    " + codeInvite);
@@ -22,6 +24,10 @@ function TrainingPage() {
             window.location.reload();
         }
     }, [codeInvite]);
+
+    const handlePreFinish = () => {
+        setShowForm(true);
+    }
 
     const handleFinish = () => {
         localStorage.removeItem('hasReloaded');
@@ -78,7 +84,7 @@ function TrainingPage() {
                                 </button>
                                 <button 
                                     className="px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-300 ease-in-out"
-                                    onClick={handleFinish}>
+                                    onClick={handlePreFinish}>
                                     Terminar
                                 </button>
                             </div>
@@ -134,6 +140,8 @@ function TrainingPage() {
                     </div>
                 </div>
             )}
+
+            <Feedback isOpen={showForm} onClose={() =>{}}/>
         </div>
     );
 }
