@@ -22,14 +22,8 @@ const Training = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [isHovered, setIsHovered] = useState(false);
   const isUnmounting = useRef(false);
-  const [feedback, setFeedback] = useState(
-    // Ejemplo de datos de feedback
-    {
-      comment: 'Muy buen ejercicio, me ayudó mucho.',
-      satisfaction: 8,
-      time: '36minutos 4 horas 23 segundos'
-    }
-  );
+  const [feedback, setFeedback] = useState({});
+
   const debounceSave = useRef(debounce(async (comments) => {
     await saveComments(comments);
   }, 3000)).current;
@@ -37,12 +31,17 @@ const Training = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
+        console.log('ojala te ayude', team);
         const response = await axios.get(`http://localhost:3000/training/teamsTraining/${team.id}`);
         const sortedTrainings = response.data.sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate));
         setTrainings(sortedTrainings);
         if (sortedTrainings.length > 0) {
           setSelectedDate(sortedTrainings[0].creationDate);
         }
+
+        const getFeed = await axios.get(`http://localhost:3000/training/feedback/${team.id}`);
+        setFeedback(getFeed.data);
+        console.log('vinee', getFeed);
       } catch (error) {
         console.error("Error loading training data:", error);
       }
@@ -270,7 +269,7 @@ const Training = () => {
           <h2 className="text-white">Feedback de los Estudiantes</h2>
           <div className="flex justify-between">
             <div className="bg-gray-700 p-2 my-1 rounded-lg text-white">
-              <p><strong>Comentario:</strong> {feedback.comment}</p>
+              <p><strong>Comentario:</strong> {feedback.comments}</p>
               <p><strong>Tiempo:</strong> {feedback.time}</p>
             </div>
             <div> 

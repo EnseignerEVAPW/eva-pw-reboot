@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const Feedback = ({ isOpen, onSubmit, onClose, timeDuration }) => {
   const [formValues, setFormValues] = useState({
     success: '',
-    time: '',
+    time: timeDuration,
     satisfaire: 0,
     comments: ''
   })
@@ -13,7 +13,6 @@ const Feedback = ({ isOpen, onSubmit, onClose, timeDuration }) => {
   }
 
   const handleValues = (e) => {
-    console.log('tratando valores');
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
   }

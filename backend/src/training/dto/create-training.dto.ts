@@ -1,5 +1,7 @@
+/* eslint-disable prettier/prettier */
 import { IsNotEmpty, IsArray, ArrayNotEmpty, ValidateNested, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
+import { FeedbackDto } from './feedback.dto';
 
 export class CreateTrainingDto {
   @IsNotEmpty()
@@ -22,4 +24,10 @@ export class CreateTrainingDto {
   @Type(() => Object)
   @IsOptional()
   comments?: object[];
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(()=> FeedbackDto)
+  feedback?: FeedbackDto;
 }
+

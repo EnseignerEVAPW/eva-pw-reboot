@@ -17,6 +17,13 @@ export class Training {
   @Column('json', { nullable: true })
   comments: object[];
 
+  @Column('json', {nullable:true})
+  feedback: {
+    comment:string;
+    satisfaction:number;
+    time:string;
+  }
+
   @ManyToOne(() => Team, team => team.trainings)
   @JoinColumn({ name: 'teamId'})
   team: Team;

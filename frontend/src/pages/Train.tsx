@@ -4,6 +4,7 @@ import VideoConferenceComp from '../components/VideoConference';
 import Board from '../components/view/Board';
 import toast, { Toaster } from 'react-hot-toast';
 import Feedback from '../components/Feedback';
+import axios from 'axios';
 
 function TrainingPage() {
     const location = useLocation();
@@ -69,8 +70,19 @@ function TrainingPage() {
         setShowModal(false);
     };
 
-    const handleSubmit = (formValues) => {
+    const handleSubmit = async (formValues) => {
         //backend posiblemente
+        const feedback = {
+            time: time,
+            comments: formValues.comments,
+            satisfaction: formValues.satisfaire
+        }
+        try{
+            await axios.patch(`http://localhost:3000/training/feedback/${codeInvite}`, feedback);
+            console.log('enviado');
+        }catch(e){
+            console.error('el error es',e);
+        }
         console.log('Aca estan los valores', formValues);
         handleFinish();
     }
