@@ -1,21 +1,21 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
-const Feedback = ({isOpen, onSubmit, onClose}) => {
+const Feedback = ({ isOpen, onSubmit, onClose, timeDuration }) => {
   const [formValues, setFormValues] = useState({
     success: '',
     time: '',
     satisfaire: 0,
-    comments:''
+    comments: ''
   })
 
-  if(!isOpen){
+  if (!isOpen) {
     return null;
   }
 
-  const handleValues =(e) => {
+  const handleValues = (e) => {
     console.log('tratando valores');
     const { name, value } = e.target;
-    setFormValues({...formValues, [name] : value });
+    setFormValues({ ...formValues, [name]: value });
   }
 
   const handleSubmit = (e) => {
@@ -25,34 +25,34 @@ const Feedback = ({isOpen, onSubmit, onClose}) => {
   }
 
   const getEmoji = (value) => {
-    if(value <= 2) return '😞';
-    if(value <= 4) return '😐';
-    if(value <= 7) return '😊';
+    if (value <= 2) return '😞';
+    if (value <= 4) return '😐';
+    if (value <= 7) return '😊';
     else return '😃';
   }
 
   return (
-    <div className='backdrop:bg-gray-50 dialog-overlay' >
+    <div className='dialog-overlay backdrop:bg-gray-50' >
       <div className="dialog p-4 max-w-2xl">
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div className="p-4 border-1 border-gray-500 rounded-lg shadow-md">
             <p className="font-bold mb-8">¿Pudiste resolver el ejercicio?</p>
             <div className="flex gap-4">
               <label className="flex items-center">
-                <input 
-                  type="radio" 
-                  name="success" 
+                <input
+                  type="radio"
+                  name="success"
                   value="si"
                   checked={formValues.success === 'si'}
                   onChange={handleValues} />
                 <span className="ml-1.2">Sí, lo resolvimos</span>
               </label>
               <label className="flex items-center">
-                <input 
-                  type="radio" 
-                  name="success"  
+                <input
+                  type="radio"
+                  name="success"
                   value="no"
-                  checked={formValues.success === "no"} 
+                  checked={formValues.success === "no"}
                   onChange={handleValues} />
                 <span className="ml-1.2">No, no pudimos</span>
               </label>
@@ -60,7 +60,7 @@ const Feedback = ({isOpen, onSubmit, onClose}) => {
           </div>
 
           <div className="p-4 border-1 border-gray-500 rounded-lg shadow-md time-spent">
-            <p>Tiempo empleado: XX:XX minutos.</p>
+            <p>Tiempo empleado: {timeDuration}</p>
           </div>
 
           <div className="p-4 border-1 border-gray-500 rounded-lg shadow-md slider-container">
@@ -82,16 +82,20 @@ const Feedback = ({isOpen, onSubmit, onClose}) => {
 
           <div className="p-4 border-1 border-gray-500 rounded-lg shadow-md">
             <label for="comments" className="font-bold mb-8">Añade cualquier comentario adicional aquí:</label>
-            <textarea 
-              id="comments" 
-              className="border-1 border-gray-500 rounded-lg p-2 bg-transparent h-24 w-full resize-none" 
+            <textarea
+              id="comments"
+              className="border-1 border-gray-500 rounded-lg p-2 bg-transparent h-24 w-full resize-none"
               name='comments'
-              rows="4" 
-              value={formValues.comments} 
+              rows="4"
+              value={formValues.comments}
               onChange={handleValues}
             ></textarea>
           </div>
-          <button type="submit" className="p-4 border-0 rounded-lg text-white bg-sky-700 cursor-pointer transition ease-in-out delay-150 hover:bg-blue-500 ">Enviar Feedback</button>
+          <div className='flex gap-4 w-full justify-center'>
+            <button type="submit" className="p-4 border-0 rounded-lg text-white bg-sky-700 cursor-pointer transition ease-in-out delay-150 hover:bg-blue-500 ">Enviar Feedback</button>
+            <button onClick={onClose} className='p-4 border-0 rounded-lg text-white bg-sky-400 cursor-pointer transition ease-in-out delay-150 hover:bg-blue-300'>Cancelar</button>
+          </div>
+
         </form>
       </div>
     </div>
