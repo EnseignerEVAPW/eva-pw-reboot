@@ -20,6 +20,7 @@ import '../../../public/styles/Board.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../common/UIComponents';
+import toast, { Toaster } from 'react-hot-toast';
 
 const HOST_URL = 'localhost:1999';
 
@@ -41,19 +42,37 @@ function Board({ codeRoom }) {
     };
 
     const saveInDataBase =  async() => {
-        try{
+        try {
             const formData = new FormData();
-            formData.append('file', selectedFile, `image.png`);
-
-            const response = await axios.post('http://localhost:3000/images/upload', formData,{
-                headers:{
+            formData.append('file', selectedFile, selectedFile.name);
+    
+            const response = await axios.post(`http://localhost:3000/boards/upload/${codeRoom}`, formData, {
+                headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log('Saved succesfully', response.data);
-        }catch(e){
-            console.error('fallo', e);
+            console.log('Imagen guardada exitosamente:', response.data);
+        } catch (error) {
+            console.error('Error al guardar la imagen:', error);
         }
+        const finishPromise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 1000);
+        });
+
+        toast.promise(
+            finishPromise,
+            {
+                loading: 'Guardando imagen...',
+                success: <b>Imagen guardada</b>,
+                error: <b>Error al guardar imagen</b>,
+            }
+        ).then(() => {
+            setTimeout(() => {
+                console.log('funciono')
+            }, 400);
+        });
     }
 
     const handleViewSaved = () => {
@@ -76,9 +95,6 @@ function Board({ codeRoom }) {
                 </div>
                 <Button onClick={saveInDataBase} fullWidth={true} color="#1E40AF">
                     GUARDAR
-                </Button>
-                <Button onClick={handleViewSaved} fullWidth={true} color="#1F2937">
-                    VER GUARDADOS
                 </Button>
             </div>
         </div>

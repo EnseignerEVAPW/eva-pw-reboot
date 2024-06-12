@@ -1,9 +1,14 @@
-import { IsNotEmpty } from 'class-validator';
-import { Buffer } from 'buffer';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateBoardDto {
   @IsNotEmpty()
-  image: Buffer; // Propiedad para contener los datos binarios de la imagen
+  @IsString()
+  trainingId: string;
 
-  time?: string; // Propiedad opcional para el tiempo
+  @IsNotEmpty()
+  @IsString()
+  imagePath: string;
+
+  @IsString()
+  time?: string;
 }
