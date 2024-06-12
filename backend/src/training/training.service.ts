@@ -93,8 +93,8 @@ export class TrainingService {
     return results;
   }
 
-  async getFeedback(teamId: string) {
-    const training = await this.trainingRepository.findOne({ where: { teamId } });
+  async getFeedback(id: string) {
+    const training = await this.trainingRepository.findOne({ where: { id } });
     if (!training) {
       throw new Error('Training not found');
     }

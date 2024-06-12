@@ -40,10 +40,6 @@ const Training = () => {
         if (sortedTrainings.length > 0) {
           setSelectedDate(sortedTrainings[0].creationDate);
         }
-
-        const getFeed = await axios.get(`http://localhost:3000/training/feedback/${team.id}`);
-        setFeedback(getFeed.data);
-        console.log('vinee', getFeed);
       } catch (error) {
         console.error("Error loading training data:", error);
       }
@@ -54,11 +50,28 @@ const Training = () => {
   }, [team.id]);
 
   useEffect(() => {
+    const loadFeedback = async () => {
+      if (!selectedDate) return;
+
+      try {
+        const training = trainings.find((item) => item.creationDate === selectedDate);
+        if (training) {
+          console.log('Cargando feedback para entrenamiento:', training);
+          const response = await axios.get(`http://localhost:3000/training/feedback/${training.id}`);
+          setFeedback(response.data);
+        }
+      } catch (error) {
+        console.error("Error cargando feedback de entrenamiento:", error);
+      }
+    };
+
+    loadFeedback();
     if (selectedDate) {
       loadScreenData(selectedDate);
     }
   }, [selectedDate, trainings]);
 
+  
   useEffect(() => {
     if (!isUnmounting.current && comments.length > 0) {
       debounceSave(comments);
@@ -227,7 +240,8 @@ const Training = () => {
     if (value <= 2) return '😞';
     if (value <= 4) return '😐';
     if (value <= 7) return '😊';
-    else return '😃';
+    if (value <= 10) return '😃';
+    else return null;
   }
 
   return (
