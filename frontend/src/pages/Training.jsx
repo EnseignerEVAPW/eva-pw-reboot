@@ -23,6 +23,8 @@ const Training = () => {
   const [isHovered, setIsHovered] = useState(false);
   const isUnmounting = useRef(false);
   const [feedback, setFeedback] = useState({});
+  const [images, setImages] = useState({});
+  const [trainingID, setTrainingID] = useState(null);
 
   const debounceSave = useRef(debounce(async (comments) => {
     await saveComments(comments);
@@ -201,6 +203,8 @@ const Training = () => {
       setComments([]);
       setChatData([]);
       setChatData(screenData.chat || []);
+      console.log('screenData', screenData);
+      setTrainingID(screenData.id);
       try {
         const response = await axios.get(`http://localhost:3000/training/${screenData.id}`);
         loadComments(response.data.comments.comments || []);
@@ -209,6 +213,28 @@ const Training = () => {
       }
     }
   };
+
+  
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        console.log("te va a encantar "  + trainingID);
+        console.log("estoy buscanco la imagen con el id: " + trainingID );
+        const IDD = trainingID;
+        const response = await axios.get(`http://localhost:3000/boards/images/${IDD}`, {
+          responseType: 'blob',
+        });
+        const imageObjectURL = URL.createObjectURL(response.data);
+        setImages({ Cxxl321: imageObjectURL });
+      } catch (error) {
+        console.error('Error al obtener la imagen para el código Cxxl321:', error);
+        setImages({ Cxxl321: null });
+      }
+    };
+  
+    fetchImage();
+  }, [trainingID]);
+  
 
   const getEmoji = (value) => {
     if (value <= 2) return '😞';
@@ -254,7 +280,7 @@ const Training = () => {
           <div
             className="w-2/3 h-full relative clickable-area z-10 rounded-r-lg"
             style={{
-              backgroundImage: `url(${img})`,
+              backgroundImage: `url(${images.Cxxl321 || img})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               display: 'flex',

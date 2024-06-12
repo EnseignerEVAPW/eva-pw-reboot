@@ -24,13 +24,13 @@ export class Training {
     time:string;
   }
 
-  @ManyToOne(() => Team, team => team.trainings)
+  @ManyToOne(() => Team, team => team.trainings, {cascade: true})
   @JoinColumn({ name: 'teamId'})
   team: Team;
 
   @Column()
   teamId: string;
 
-  @OneToMany(() => Board, board => board.training)
+  @OneToMany(() => Board, board => board.training, { cascade: true })
   boards: Board[];
 }

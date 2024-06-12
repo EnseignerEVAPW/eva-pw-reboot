@@ -13,8 +13,6 @@ export class Image extends BaseEntity{
     @Column({type: 'timestamp', default:()=>'CURRENT_TIMESTAMP'})
     createdAt: Date;
 
-    @Column()
-    userId: number;
     
     @ManyToOne(() => User, user => user.images)
     user: User;

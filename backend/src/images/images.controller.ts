@@ -21,15 +21,15 @@ export class ImagesController {
         fileFilter: fileFilter
     }))
     async uploadFile(@UploadedFile() file: Express.Multer.File): Promise<any>{
-       const savedImage = await this.imagesService.create({filename : file.filename})
-       if(!savedImage) {
-        throw new HttpException('No se guardo imagen', HttpStatus.BAD_REQUEST);
-       }
+        const savedImage = await this.imagesService.create({filename : file.filename})
+        if(!savedImage) {
+            throw new HttpException('No se guardo imagen', HttpStatus.BAD_REQUEST);
+        }
 
-       return{
-        message: 'Imagen guardada',
-        data: savedImage
-       }
+        return{
+            message: 'Imagen guardada',
+            data: savedImage
+        }
     };
 
     @Get()
