@@ -57,8 +57,8 @@ export class TrainingController {
   }
 
   @Get('feedback/:id')
-  async getFeedback(@Param('id') teamId: string) {
-    return this.trainingService.getFeedback(teamId);
+  async getFeedback(@Param('id') id: string) {
+    return this.trainingService.getFeedback(id);
   }
 
   @Patch('feedback/:id')
