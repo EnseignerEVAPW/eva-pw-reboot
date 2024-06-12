@@ -41,18 +41,18 @@ function Board({ codeRoom }) {
     };
 
     const saveInDataBase =  async() => {
-        try{
+        try {
             const formData = new FormData();
-            formData.append('file', selectedFile, `image.png`);
-
-            const response = await axios.post('http://localhost:3000/images/upload', formData,{
-                headers:{
+            formData.append('file', selectedFile, selectedFile.name);
+    
+            const response = await axios.post(`http://localhost:3000/boards/upload/${codeRoom}`, formData, {
+                headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log('Saved succesfully', response.data);
-        }catch(e){
-            console.error('fallo', e);
+            console.log('Imagen guardada exitosamente:', response.data);
+        } catch (error) {
+            console.error('Error al guardar la imagen:', error);
         }
     }
 

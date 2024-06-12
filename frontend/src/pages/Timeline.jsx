@@ -6,6 +6,7 @@ const Timeline = () => {
   const location = useLocation();
   const { team } = location.state || { team: { name: 'Unknown', meetings: [] } };
   const [meetings, setMeetings] = useState([]);
+  const [images, setImages] = useState({});
 
   useEffect(() => {
     const loadData = async () => {
@@ -18,6 +19,34 @@ const Timeline = () => {
     };
     loadData();
   }, [team.id]);
+
+  useEffect(() => {
+    const fetchImages = async () => {
+      const imagePromises = meetings.map(async (meeting) => {
+        try {
+          const codigo = meeting.id;
+          const response = await axios.get(`http://localhost:3000/boards/images/${codigo}`, {
+            responseType: 'blob',
+          });
+          const imageObjectURL = URL.createObjectURL(response.data);
+          return { id: meeting.id, image: imageObjectURL };
+        } catch (error) {
+          console.error(`Error al obtener la imagen para el meeting con id ${meeting.id}:`, error);
+          return { id: meeting.id, image: null };
+        }
+      });
+      const resolvedImages = await Promise.all(imagePromises);
+      const imagesMap = resolvedImages.reduce((acc, { id, image }) => {
+        acc[id] = image;
+        return acc;
+      }, {});
+      setImages(imagesMap);
+    };
+
+    if (meetings.length > 0) {
+      fetchImages();
+    }
+  }, [meetings]);
 
   return (
     <div className="px-4 sm:px-8 md:px-16 lg:px-32 xl:px-48 py-8 text-white bg-gradient-to-r from-gray-800 to-gray-900 min-h-screen">
@@ -39,8 +68,12 @@ const Timeline = () => {
                   ))}
                 </div>
                 <div className="w-1/4 ml-4">
-                  <img src={meeting.image} alt="Imagen de la reunión" className="rounded-md h-48 w-full object-cover border border-gray-700" />
-                </div>
+                {images[meeting.id] ? (
+                  <img src={images[meeting.id]} alt="Imagen de la reunión" className="rounded-md h-48 w-full object-cover border border-gray-700" />
+                ) : (
+                  <p>No se pudo cargar la imagen</p>
+                )}
+              </div>
               </div>
             </div>
           </div>
