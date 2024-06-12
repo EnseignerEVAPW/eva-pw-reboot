@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import VideoConferenceComp from '../components/VideoConference';
 import Board from '../components/view/Board';
 import toast, { Toaster } from 'react-hot-toast';
+import Feedback from '../components/Feedback';
+import axios from 'axios';
 
 function TrainingPage() {
     const location = useLocation();
@@ -13,25 +15,36 @@ function TrainingPage() {
 
     const [view, setView] = useState('pizarra');
     const [showModal, setShowModal] = useState(isCreator);
+    const [showForm, setShowForm] = useState(false);
+    const timeInit = new Date();
+    const [time, setTime] = useState('');
 
     useEffect(() => {
         console.log("invitacion    " + codeInvite);
         const hasReloaded = localStorage.getItem('hasReloaded');
+        console.log(time);
         if (!hasReloaded) {
             localStorage.setItem('hasReloaded', 'true');
             window.location.reload();
         }
     }, [codeInvite]);
 
+    const handlePreFinish = () => {
+        const finishSession = new Date();
+        const duration = (finishSession - timeInit) / 1000;
+        setTime(formatTime(duration));
+        setShowForm(true);
+    }
+
     const handleFinish = () => {
         localStorage.removeItem('hasReloaded');
-    
+
         const finishPromise = new Promise((resolve) => {
             setTimeout(() => {
                 resolve();
             }, 1000);
         });
-    
+
         toast.promise(
             finishPromise,
             {
@@ -57,6 +70,34 @@ function TrainingPage() {
         setShowModal(false);
     };
 
+    const handleSubmit = async (formValues) => {
+        //backend posiblemente
+        const feedback = {
+            time: time,
+            comments: formValues.comments,
+            satisfaction: formValues.satisfaire
+        }
+        try{
+            await axios.patch(`http://localhost:3000/training/feedback/${codeInvite}`, feedback);
+            console.log('enviado');
+        }catch(e){
+            console.error('el error es',e);
+        }
+        console.log('Aca estan los valores', formValues);
+        handleFinish();
+    }
+
+    const formatTime = (timeDuration:number) => {
+        const hour = Math.max(Math.floor(timeDuration / 3600), 0);
+        const minutes = Math.max(Math.floor((timeDuration % 3600) / 60), 0);
+        const seconds = Math.max(Math.floor(timeDuration % 60), 0);
+
+        return `${hour} horas, ${minutes} minutos y ${seconds} segundos.`;
+    }
+
+    const closeDialog = () => {
+        setShowForm(false);
+    }
     return (
         <div className="container-fluid h-screen p-4 flex-grow">
             <Toaster />
@@ -71,14 +112,14 @@ function TrainingPage() {
                                 </div>
                             )}
                             <div className="flex space-x-4">
-                                <button 
+                                <button
                                     className="px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-300 ease-in-out"
                                     onClick={handleCopyCode}>
                                     Copiar Código
                                 </button>
-                                <button 
+                                <button
                                     className="px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-300 ease-in-out"
-                                    onClick={handleFinish}>
+                                    onClick={handlePreFinish}>
                                     Terminar
                                 </button>
                             </div>
@@ -86,12 +127,12 @@ function TrainingPage() {
                     </div>
                     <div className="w-3/5 h-full flex flex-grow flex-col overflow-hidden">
                         <div className="flex flex-row justify-center gap-4 mb-4">
-                            <button 
+                            <button
                                 className="w-full px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-200 ease-in-out"
                                 onClick={() => setView('editor')}>
                                 Editor de código
                             </button>
-                            <button 
+                            <button
                                 className="w-full px-4 py-2 rounded-md shadow text-white font-medium bg-gray-800 hover:bg-gray-600 transition duration-200 ease-in-out"
                                 onClick={() => setView('pizarra')}>
                                 Pizarra virtual
@@ -134,6 +175,8 @@ function TrainingPage() {
                     </div>
                 </div>
             )}
+
+            <Feedback isOpen={showForm} onSubmit={handleSubmit} onClose={closeDialog} timeDuration={time} />
         </div>
     );
 }

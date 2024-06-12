@@ -3,6 +3,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TrainingService } from './training.service';
 import { CreateTrainingDto } from './dto/create-training.dto';
 import { UpdateTrainingDto } from './dto/update-training.dto';
+import { FeedbackDto } from './dto/feedback.dto';
 
 @Controller('training')
 export class TrainingController {
@@ -54,4 +55,15 @@ export class TrainingController {
   async getTrainingsOf(@Param('id') teamId: string) {
     return this.trainingService.getTrainingsOf(teamId);
   }
+
+  @Get('feedback/:id')
+  async getFeedback(@Param('id') teamId: string) {
+    return this.trainingService.getFeedback(teamId);
+  }
+
+  @Patch('feedback/:id')
+  async addFeedback(@Param('id') id: string, @Body() feedback: FeedbackDto ) {
+    return this.trainingService.addFeedback(id, feedback);
+  }
+
 }

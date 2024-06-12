@@ -6,6 +6,7 @@ import { CreateTrainingDto } from './dto/create-training.dto';
 import { UpdateTrainingDto } from './dto/update-training.dto';
 import { Training } from './entities/training.entity';
 import { Team } from 'src/team/entities/team.entity';
+import { FeedbackDto } from './dto/feedback.dto';
 
 @Injectable()
 export class TrainingService {
@@ -15,10 +16,10 @@ export class TrainingService {
 
     @InjectRepository(Team)
     private readonly teamRepository: Repository<Team>
-  ) {}
+  ) { }
 
   async create(createTrainingDto: CreateTrainingDto): Promise<Training> {
-    const { teamId, id, chat, comments } = createTrainingDto;
+    const { teamId, id, chat, comments, feedback } = createTrainingDto;
     const team = await this.teamRepository.findOne({ where: { id: parseInt(teamId) } });
     if (!team) {
       throw new NotFoundException(`Team with ID ${teamId} not found`);
@@ -29,6 +30,7 @@ export class TrainingService {
     training.creationDate = new Date();
     training.chat = chat;
     training.comments = comments;
+    training.feedback = feedback;
     training.id = id;
 
     return this.trainingRepository.save(training);
@@ -89,5 +91,22 @@ export class TrainingService {
       throw new NotFoundException(`Trainings for Team with ID ${teamId} not found`);
     }
     return results;
+  }
+
+  async getFeedback(teamId: string) {
+    const training = await this.trainingRepository.findOne({ where: { teamId } });
+    if (!training) {
+      throw new Error('Training not found');
+    }
+    return training.feedback;
+  }
+
+  async addFeedback(id: string, feedback: FeedbackDto) {
+    const training = await this.trainingRepository.findOne({ where: { id } });
+    if (!training) {
+      throw new NotFoundException(`Training with ID ${id} not found`);
+    }
+    training.feedback = feedback;
+    return this.trainingRepository.save(training);
   }
 }
