@@ -20,6 +20,7 @@ import '../../../public/styles/Board.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../common/UIComponents';
+import toast, { Toaster } from 'react-hot-toast';
 
 const HOST_URL = 'localhost:1999';
 
@@ -54,6 +55,24 @@ function Board({ codeRoom }) {
         } catch (error) {
             console.error('Error al guardar la imagen:', error);
         }
+        const finishPromise = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 1000);
+        });
+
+        toast.promise(
+            finishPromise,
+            {
+                loading: 'Guardando imagen...',
+                success: <b>Imagen guardada</b>,
+                error: <b>Error al guardar imagen</b>,
+            }
+        ).then(() => {
+            setTimeout(() => {
+                console.log('funciono')
+            }, 400);
+        });
     }
 
     const handleViewSaved = () => {
@@ -76,9 +95,6 @@ function Board({ codeRoom }) {
                 </div>
                 <Button onClick={saveInDataBase} fullWidth={true} color="#1E40AF">
                     GUARDAR
-                </Button>
-                <Button onClick={handleViewSaved} fullWidth={true} color="#1F2937">
-                    VER GUARDADOS
                 </Button>
             </div>
         </div>
