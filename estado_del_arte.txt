@@ -1,0 +1,25 @@
+# Estado del Arte
+
+## Introducción
+Este documento presenta un estado del arte sobre la aplicación web P2P Learning.
+
+## Tema Principal
+El aprendizaje de pares es importante para la obtención de información de forma paralela, utilizando el aprendizaje activo, construyendo conocimiento mientras se enseña o resuelve problemas de forma colaborativa.  
+Con P2P_Learning es posible que dos usuarios puedan comunicarse en una videollamada y utilizar el chat del servicio Jitsi, además de contribuir en tiempo real en un board de tldraw, agregando conocer información directa de Codeforces.  
+Todo esto con el objetivo de practicar y resolver problemas de programación competitiva, finalizando en un feedback presentado a un coach que ayuda segun el historial de estos entrenamientos.
+
+## Avances 
+El proyecto definido funciona localmente con lo descrito en el tema, el modelo de entrenamiento está completado. Los servicios mencionados han sido implementados y se tratan en la base de datos, el historial de entrenamientos posee interactividad y posible agregado de comentarios en las pizarras. 
+
+## Revisión bibliográfica
+- Artículo sobre Integraciones de servicios en P2PLearning.
+
+## Desafíos y Problemas Abiertos
+A pesar de los avances, se puede mejorar con una automatización en el guardado de las imágenes y que los entrenamientos puedan poseer una colección de imágenes.
+Por otra parte y más interesante aún, la aplicación de SCORM para el seguimiento del progreso o avance de los equipos(pares) y accesibilidad con LMS.
+
+## Aplicaciones y Casos de Uso
+P2P Learning tiene como objetivo fortalecer los entrenamientos de equipos para programación competitiva.
+
+## Conclusión
+Este estado del arte subraya la importancia del aprendizaje de pares, considerando la base de proyectos más grandes implementando más funcionalidades o aplicando estándares ELearning.
